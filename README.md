@@ -17,7 +17,7 @@ To enable it, open `Settings` pane in Sidebar and toggle switch in `Developer to
 
 #### Entry point
 
-When development mode is enabled additional app is added to the list of other apps: `Development App`.
+When development mode is enabled, additional app is added to the list of other apps: `Development App`.
 
 Developer needs to setup entry point for Graph App in settings.
 
@@ -34,10 +34,12 @@ Supported formats:
 
 ## Example
 
-Additional examples are available:
+Available examples:
 
 - [Simple single file Graph Application](examples/basic-single-file)
 - [Simple application created with create-react-app](examples/basic-create-react-app)
+
+#### Quickstart example
 
 ```js
 /**
@@ -193,14 +195,12 @@ type ProjectCreatedEvent = {
 type ProjectRemovedEvent = {
     type: 'PROJECT_REMOVED',
     id: string
-
 }
 
 type ProjectRenamedEvent = {
     type: 'PROJECT_RENAMED',
     id: string,
     name: string
-
 }
 
 type DatabaseCreatedEvent = {
@@ -217,7 +217,6 @@ type DatabaseCreatedEvent = {
 type DatabaseStartedEvent = {
     type: 'DATABASE_STARTED',
     id: string
-
 };
 
 type DatabaseStoppedEvent = {
