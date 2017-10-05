@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Graph App Example</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/redux@3.7.2/dist/redux.js"></script>
+    <script src="https://unpkg.com/react-redux@5.0.6/dist/react-redux.js"></script>
+    <script src="https://unpkg.com/redux-logger@3.0.6/dist/redux-logger.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+        #root {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+    //-------------------
+    // Components
+    //-------------------
+
+    function Settings({settings}) {
+        return <div>
+            <h3>Settings</h3>
+
+            <table className="pure-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {
+                        _.keys(settings).map((key) =>
+                            (<tr key={key}>
+                                <td>{key}</td>
+                                <td>{settings[key].toString()}</td>
+                            </tr>))
+                    }
+                </tbody>
+            </table>
+
+        </div>;
+    }
+
+    function Graph({graph}) {
+        console.log("graph", graph, graph.connection.info);
+        return (<ul>
+            <li>
+                {graph.name}
+                <ul>
+                    <li><b>ID:</b> {graph.id}</li>
+                    <li><b>Status:</b> {graph.status}</li>
+                    <li><b>Description:</b> {graph.description}</li>
+                    <li>
+                        <b>Connection:</b>
+                        <ul>
+                            <li><b>Info:</b> {graph.connection.type}</li>
+                            <li>
+                                <b>Info:</b>
+                                <ul>
+                                    {
+                                        _.keys(graph.connection.info).map((key) => (
+                                                <li key={key}>{key}: {(graph.connection.info[key] || "").toString()}</li>
+                                        ))
+                                    }
+                                </ul>
+                            </li>
+                            <li>
+                                <b>Configuration</b>
+                                <ul>
+                                    {
+                                        _.keys(graph.connection.configuration).map((key) => (
+                                                <li key={key}>{key}: {(graph.connection.configuration[key] || "").toString()}</li>
+                                        ))
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>);
+    }
+
+    function Project({project}) {
+        return <div>
+            <hr />
+            <h3>{project.name}</h3>
+            <p>
+                <b>ID:</b> {project.id}
+            </p>
+            <p>
+                <b>Description:</b> {project.description}
+            </p>
+            <h4>Graphs</h4>
+            {project.graphs.map((graph) => (<Graph key={graph.id} graph={graph} />))}
+        </div>;
+    }
+
+    function Projects({projects}) {
+        return <div>
+            {projects.map((project) => (<Project key={project.id} project={project} />))}
+        </div>
+    }
+
+    //-------------------
+    // Setup store
+    //-------------------
+    const initialState = {
+        apiVersion: 'unknown',
+        context: {
+            global: {
+                settings: {}
+            },
+            projects: []
+        }
+    };
+
+    function reducer(state = initialState, action) {
+        switch (action.type) {
+        case 'API_VERSION':
+            return {
+                ...state,
+                apiVersion: action.version,
+            };
+        case 'CONTEXT_UPDATE':
+            return {
+                ...state,
+                context: action.context
+            }
+        }
+        return state;
+    }
+
+    const store = Redux.createStore(
+        reducer,
+        Redux.applyMiddleware(reduxLogger.default)
+    );
+
+    //-------------------
+    // Setup container
+    //-------------------
+    const App = ReactRedux.connect(
+        state => state
+    )((props) => {
+        return <div className="pure-g">
+            <div className="pure-u-1-3">
+                <h3>Api Version: {props.apiVersion}</h3>
+                <Settings settings={props.context.global.settings} />
+            </div>
+            <div className="pure-u-2-3">
+                <Projects projects={props.context.projects} />
+            </div>
+        </div>
+    });
+
+    //-------------------
+    // Render application
+    //-------------------
+    ReactDOM.render(
+            <ReactRedux.Provider store={store}>
+                <App />
+            </ReactRedux.Provider>,
+        document.getElementById('root')
+    );
+
+    //-------------------
+    // Connect to Desktop API
+    //-------------------
+    store.dispatch({
+        type: 'API_VERSION',
+        version: window.neo4jDesktopApi.version
+    });
+
+
+    window.neo4jDesktopApi.onContextUpdate((event, newContext, oldContext) => {
+        console.log("Desktop Event: ", event);
+        store.dispatch({
+            type: 'CONTEXT_UPDATE',
+            context: newContext
+        });
+    });
+
+    window.neo4jDesktopApi.getContext()
+        .then(context => {
+            store.dispatch({
+                type: 'CONTEXT_UPDATE',
+                context: context
+            });
+        })
+</script>
+</body>
+</html>
