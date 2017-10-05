@@ -1,14 +1,13 @@
 # Neo4j Desktop Graph App API
 
 To give a 3rd party applications the possibility to know,
-what active graph is and where it is contained, we should provide some context.
+what active graph is and where it is contained, we provide a context.
 
-First of all, context should expose to the apps all data, that could be viable for them to operate -
-project info, content, graph list and a reference to an active graph.
+First of all, context expose to the apps all data, that could be viable for them to operate -
+configurations, projects, graphs.
 
 Context itself is an immutable structure which is generated on demand,
-but all context changes should be interceptable,
-so the apps could react to context changes immediately.
+but all context changes are interceptable, so the apps could react to context changes immediately.
 
 ## Development mode
 
