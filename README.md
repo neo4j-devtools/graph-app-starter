@@ -29,6 +29,8 @@ Supported formats:
 * HTTP: load arbitrary `URL`
   * Example: `http://localhost:3000`
 
+**Note:** settings are not saved between Neo4j Desktop restarts.
+
 ![Developer Tools](developmentMode.png)
 
 ## Example

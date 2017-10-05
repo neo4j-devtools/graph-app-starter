@@ -57,7 +57,6 @@
     }
 
     function Graph({graph}) {
-        console.log("graph", graph, graph.connection.info);
         return (<ul>
             <li>
                 {graph.name}
@@ -120,31 +119,6 @@
     //-------------------
     // Setup store
     //-------------------
-    const initialState = {
-        apiVersion: 'unknown',
-        context: {
-            global: {
-                settings: {}
-            },
-            projects: []
-        }
-    };
-
-    function reducer(state = initialState, action) {
-        switch (action.type) {
-        case 'API_VERSION':
-            return {
-                ...state,
-                apiVersion: action.version,
-            };
-        case 'CONTEXT_UPDATE':
-            return {
-                ...state,
-                context: action.context
-            }
-        }
-        return state;
-    }
 
     const store = Redux.createStore(
         reducer,
