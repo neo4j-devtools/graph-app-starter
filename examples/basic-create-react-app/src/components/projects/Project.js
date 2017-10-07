@@ -9,9 +9,6 @@ export default function Project({project}) {
         <p>
             <b>ID:</b> {project.id}
         </p>
-        <p>
-            <b>Description:</b> {project.description}
-        </p>
         <h4>Graphs</h4>
         <Graphs graphs={project.graphs} />
     </div>;

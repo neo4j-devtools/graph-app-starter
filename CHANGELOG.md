@@ -2,8 +2,17 @@
 
 ### 07.10.2017
 
-- Remove `description` from `Project` type
+**Bump API Version:** 1.1.0
+
+- Non-backward `Context` changes
+  - Remove `Project.description`
+  - Added `GraphLocalConnection.databaseType`
+  - Added `GraphLocalConnection.databaseStatus`
+  - Removed `GraphLocalConnection.info.status`
+  - Changed `GraphLocalConnection.configuration`
+    - Added `protocols` with `both`, `http` and `https` values
+- Added new action `DatabaseSettingsSaved`
 
 ### 05.10.2017
 
-- Added `executeJava` method to API
+- Added `executeJava` function

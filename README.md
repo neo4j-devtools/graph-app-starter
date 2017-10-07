@@ -17,7 +17,7 @@ Neo4j Desktop have `Development mode`.
 
 To enable it, open `Settings` pane in Sidebar and toggle switch in `Developer tools` section.
 
-#### Entry point
+### Development mode settings
 
 When development mode is enabled, additional app is added to the list of other apps: `Development App`.
 
@@ -84,13 +84,23 @@ Example:
 
 ```json
 {
-    "name": "",
-    "description": "",
+    "name": "My Graph App",
+    "description": "(desktop)-[:LOVES]->(apps)",
     "neo4jDesktop": {
-        "apiVersion": "1.0.0"
+        "apiVersion": "1.1.0"
     }
 }
 ```
+
+## Technical details
+
+#### Application data location
+
+| OS | Location |
+|----|----------|
+| macOS | ~/Library/Application Support/Neo4j Desktop |
+| Windows | %APPDATA%/Neo4j Desktop |
+| Linux | ~/.config/Neo4j Desktop |
 
 ## Reference 
 
@@ -117,6 +127,10 @@ window.neo4jDesktopApi = {
      */
     executeJava: (parameters: JavaParameters) => JavaResult
 };
+
+//---------------
+// Java
+//---------------
 
 export type JavaParameters = {
     /**
@@ -151,7 +165,11 @@ export type JavaResult = {
     stderr: string
 }
 
-type Context = {
+//---------------
+// Context
+//---------------
+
+export type Context = {
     global: {
         settings: Settings
     },
@@ -179,42 +197,52 @@ type Graph = {
 
 type GraphLocalConnection = {
     type: 'LOCAL',
-    connection: {
-        info: {
-            version: string,
-            edition: string,
-            status: GraphLocalConnectionStatus
-        },
-        configuration: GraphLocalConnectionInactiveConfiguration | GraphLocalConnectionActiveConfiguration
+    databaseType: 'neo4j',
+    databaseStatus: GraphLocalConnectionStatus,
+    info: {
+        version: string,
+        edition: string,
+    },
+    configuration: {
+        path: string,
+        protocols: {
+            bolt: {
+                enabled: boolean,
+                host: string,
+                port: number,
+                tlsLevel: 'OPTIONAL' | 'REQUIRED' | 'DISABLED'
+            },
+            http: {
+                enabled: boolean,
+                host: string,
+                port: number,
+            },
+            https: {
+                enabled: boolean,
+                host: string,
+                port: number,
+            }
+        }
     }
 };
 
 type GraphLocalConnectionStatus =
-    | 'stopped'
-    | 'stopping'
-    | 'starting'
-    | 'restarting'
-    | 'running'
-    | 'unknown'
-    | 'new'
-    | 'creating'
-    | 'removing'
-    | 'upgrading'
-    | 'missing'
-;
+    | 'STOPPED'
+    | 'STOPPING'
+    | 'STARTING'
+    | 'RESTARTING'
+    | 'RUNNING'
+    | 'UNKNOWN'
+    | 'NEW'
+    | 'CREATING'
+    | 'REMOVING'
+    | 'UPGRADING'
+    | 'MISSING'
+    ;
 
-// If Graph.status === 'ACTIVE'
-type GraphLocalConnectionInactiveConfiguration = {
-    path: string
-};
-
-// If Graph.status === 'INACTIVE'
-type GraphLocalConnectionActiveConfiguration = {
-    path: string,
-    host: string,
-    port: string,
-    encrypted: boolean
-};
+//---------------
+// Events
+//---------------
 
 type Event = 
     | ProjectCreatedEvent
@@ -227,6 +255,7 @@ type Event =
     | DatabaseRemovedEvent
     | DatabaseUpdatedEvent
     | DatabaseUpgradedEvent
+    | DatabaseSettingsSaved
 ;
 
 type ProjectCreatedEvent = {
@@ -290,5 +319,10 @@ type DatabaseUpgradedEvent = {
     type: 'DATABASE_UPGRADED',
     id: string,
     version: string
+};
+
+type DatabaseSettingsSaved = {
+    type: 'DATABASE_SETTINGS_SAVED',
+    id: string
 };
 ```
