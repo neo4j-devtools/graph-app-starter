@@ -4,6 +4,7 @@
 
 **Bump API Version:** 1.1.0
 
+- Add possibility to configure Graph Apps externally
 - Non-backward `Context` changes
   - Remove `Project.description`
   - Added `GraphLocalConnection.databaseType`

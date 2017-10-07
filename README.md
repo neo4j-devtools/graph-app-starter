@@ -92,6 +92,40 @@ Example:
 }
 ```
 
+### Configure external Graph App
+
+Neo4j Desktop can work with externally configured Graph Apps.
+
+Such apps should be configured in `<DESKTOP_APPLICATION_DATA>/Application/graphApps.json`.
+Check documentation below to find out how to locate `<DESKTOP_APPLICATION_DATA>`;
+
+Configuration file format:
+
+```js
+type GraphAppConfiguration = Array<{
+    appName: string,
+    packageUrl: string
+}>
+```
+
+Example:
+
+```json
+[
+    {
+        "appName": "My Graph App",
+        "packageUrl": "https://registry.npmjs.org/myGraphApp"
+    }
+]
+```
+
+**Notes:**
+
+- In case of public NPM registry `packageUrl` format is `https://registry.npmjs.org/<packageName>`.
+- Private NPM registries are supported as well (consult documentation of your NPM registry provider to find out proper link).
+- Ensure that `neo4jDesktop.apiVersion` is properly configured.
+- Ensure that package have proper structure.
+
 ## Technical details
 
 #### Application data location
