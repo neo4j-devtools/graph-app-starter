@@ -1,3 +1,10 @@
+# Changes
+
+### 05.10.2017
+
+- Added `executeJava` method to API
+- 
+
 # Neo4j Desktop Graph App API
 
 To give a 3rd party applications the possibility to know,
@@ -63,7 +70,7 @@ if (window.neo4jDesktopApi) {
     neo4jDesktopApi.getContext()
         .then((context) => {
             // initialize application with context
-        })
+        });   
 }
 ```
 
@@ -104,7 +111,12 @@ window.neo4jDesktopApi = {
     /**
      * Register callback to receive context updates when events are happening.
      */
-    onContextUpdate: (event: Event, newContext: Context, oldContext: Context) => void
+    onContextUpdate: (event: Event, newContext: Context, oldContext: Context) => void,
+    
+    /**
+    *  Execute any jar, bundled inside you app package or given path. Will return complete stdout 
+    */
+    executeJava: (params: JavaParameters, rootPath: ?string) => string
 };
 
 type Context = {
@@ -112,6 +124,13 @@ type Context = {
         settings: Settings
     },
     projects: Array<Project>
+};
+
+type JavaParameters = {
+    ['class' | 'jar']: string,
+    options: Array<string>,
+    classpath: Array<string>,
+    arguments: Array<string>
 };
 
 type Settings = {
@@ -130,12 +149,12 @@ type Graph = {
     id: string,
     name: string,
     description: string,
-    status: 'ACTIVE' | 'INACTIVE'
+    status: 'ACTIVE' | 'INACTIVE',
     connection: GraphLocalConnection
 };
 
 type GraphLocalConnection = {
-    type: 'LOCAL'
+    type: 'LOCAL',
     connection: {
         info: {
             version: string,
