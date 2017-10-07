@@ -1,10 +1,3 @@
-# Changes
-
-### 05.10.2017
-
-- Added `executeJava` method to API
-- 
-
 # Neo4j Desktop Graph App API
 
 To give a 3rd party applications the possibility to know,
@@ -16,6 +9,8 @@ configurations, projects, graphs.
 Context itself is an immutable structure which is generated on demand,
 but all context changes are interceptable, so the apps could react to context changes immediately.
 
+Check out [Changelog](CHANGELOG.md) to follow API changes.
+
 ## Development mode
 
 Neo4j Desktop have `Development mode`.
@@ -26,14 +21,18 @@ To enable it, open `Settings` pane in Sidebar and toggle switch in `Developer to
 
 When development mode is enabled, additional app is added to the list of other apps: `Development App`.
 
-Developer needs to setup entry point for Graph App in settings.
+Developer needs to setup entry point and application root directory for Graph App in settings.
 
-Supported formats:
+Settings:
 
-* File: load `.html` file directly from filesystem
-  * Example: `file:///Users/me/work/graph-app/index.html`
-* HTTP: load arbitrary `URL`
-  * Example: `http://localhost:3000`
+* Entry Point
+  * Supported formats:
+      * File: load `.html` file directly from filesystem
+        * Example: `file:///Users/me/work/graph-app/index.html`
+      * HTTP: load arbitrary `URL`
+        * Example: `http://localhost:3000`
+* Root Path
+    * Example: `/Users/me/work/graph-app`
 
 **Note:** settings are not saved between Neo4j Desktop restarts.
 
@@ -114,23 +113,49 @@ window.neo4jDesktopApi = {
     onContextUpdate: (event: Event, newContext: Context, oldContext: Context) => void,
     
     /**
-    *  Execute any jar, bundled inside you app package or given path. Will return complete stdout 
-    */
-    executeJava: (params: JavaParameters, rootPath: ?string) => string
+     *  Execute any jar, bundled inside you app package or given path. Will return complete stdout 
+     */
+    executeJava: (parameters: JavaParameters) => JavaResult
 };
+
+export type JavaParameters = {|
+    /**
+     * Specify class or jar that should be executed.
+     * Path to a .jar file can either be relative to App Path or absolute.
+     * Example: 'Main'
+     * Example: './test.jar'
+     */
+    ['class' | 'jar']: string,
+    
+    /**
+     * JVM arguments.
+     * Example: ['-DmyProperty=value', '-Xdebug']
+     */
+    options: string[],
+    
+    /**
+     * Jar's that will be added to classpath.
+     * Example: ['./test.jar', '/opt/lib/test.jar']
+     */
+    classpath: string[],
+    
+    /**
+     * Argument passed to a main.
+     * Example: ['one', 'two', 'three']
+     */
+    arguments: string[]
+|}
+
+export type JavaResult = {|
+    stdout: string,
+    stderr: string
+|}
 
 type Context = {
     global: {
         settings: Settings
     },
     projects: Array<Project>
-};
-
-type JavaParameters = {
-    ['class' | 'jar']: string,
-    options: Array<string>,
-    classpath: Array<string>,
-    arguments: Array<string>
 };
 
 type Settings = {

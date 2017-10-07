@@ -8,8 +8,6 @@
     <title>Graph App Example</title>
 
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-
     <style>
         #root {
             margin: 20px;
@@ -34,15 +32,14 @@
             <button type="submit" class="pure-button" onclick="executeJar()">Execute jar</button>
             <button type="submit" class="pure-button" onclick="executeClass()">Execute 'Main' class</button>
         </div>
+
+        <h3>Result</h3>
+        <pre><code id="stdout"></code></pre>
+        <pre><code id="stderr"></code></pre>
     </form>
 </div>
 
-<script type="text/babel">
-    //-------------------------------
-    // CHANGE THIS PATH TO A REAL ONE
-    //-------------------------------
-    const rootPath = "/home/serish/workspace/neo4j-desktop-graph-app/examples/basic-java-executor";
-
+<script>
     function parseArguments() {
         const text = window.arguments.value;
         return text.split(',');
@@ -53,21 +50,33 @@
         return text.split(',');
     }
 
+    function showResult({stdout, stderr}) {
+        window.stdout.innerText = stdout;
+        window.stderr.innerText = stderr;
+    }
+
     function executeJar() {
-        window.neo4jDesktopApi.executeJava(
-            {jar: "./test.jar", options: parseOptions(), classpath: [], arguments: parseArguments()},
-            rootPath
-        )
-            .then((result) => alert(`Execute jar: ${result}`));
+        const parameters = {
+            jar: "./test.jar",
+            options: parseOptions(),
+            classpath: [],
+            arguments: parseArguments()
+        };
+
+        window.neo4jDesktopApi.executeJava(parameters)
+            .then(showResult);
     }
 
     function executeClass() {
-        console.log(parseOptions(), parseArguments());
-        window.neo4jDesktopApi.executeJava(
-            {class: "Main", options: parseOptions(), classpath: ['./test.jar'], arguments: parseArguments()},
-            rootPath
-        )
-            .then((result) => alert(`Execute class: ${result}`));
+        const parameters = {
+            class: "Main",
+            options: parseOptions(),
+            classpath: ['./test.jar'],
+            arguments: parseArguments()
+        };
+
+        window.neo4jDesktopApi.executeJava(parameters)
+            .then(showResult);
     }
 </script>
 </body>
