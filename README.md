@@ -44,6 +44,7 @@ Available examples:
 
 - [Simple single file Graph Application](examples/basic-single-file)
 - [Simple application created with create-react-app](examples/basic-create-react-app)
+- [Simple application executing Java](examples/basic-java-executor)
 
 #### Quickstart example
 
