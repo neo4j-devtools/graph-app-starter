@@ -118,7 +118,7 @@ window.neo4jDesktopApi = {
     executeJava: (parameters: JavaParameters) => JavaResult
 };
 
-export type JavaParameters = {|
+export type JavaParameters = {
     /**
      * Specify class or jar that should be executed.
      * Path to a .jar file can either be relative to App Path or absolute.
@@ -144,12 +144,12 @@ export type JavaParameters = {|
      * Example: ['one', 'two', 'three']
      */
     arguments: string[]
-|}
+}
 
-export type JavaResult = {|
+export type JavaResult = {
     stdout: string,
     stderr: string
-|}
+}
 
 type Context = {
     global: {
@@ -166,7 +166,6 @@ type Settings = {
 type Project = {
     id: string,
     name: string,
-    description: description,
     graphs: Array<Graph>
 };
 
