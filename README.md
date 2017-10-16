@@ -227,7 +227,7 @@ type Graph = {
     name: string,
     description: string,
     status: 'ACTIVE' | 'INACTIVE',
-    connection: GraphLocalConnection
+    connection: GraphLocalConnection | GraphRemoteConnection
 };
 
 type GraphLocalConnection = {
@@ -236,7 +236,7 @@ type GraphLocalConnection = {
     databaseStatus: GraphLocalConnectionStatus,
     info: {
         version: string,
-        edition: string,
+        edition: string
     },
     configuration: {
         path: string,
@@ -250,12 +250,12 @@ type GraphLocalConnection = {
             http: {
                 enabled: boolean,
                 host: string,
-                port: number,
+                port: number
             },
             https: {
                 enabled: boolean,
                 host: string,
-                port: number,
+                port: number
             }
         }
     }
@@ -275,6 +275,40 @@ type GraphLocalConnectionStatus =
     | 'MISSING'
     ;
 
+type GraphRemoteConnection = {
+    type: 'REMOTE',
+    databaseType: 'neo4j',
+    databaseStatus: GraphRemoteConnectionStatus,
+    info: {
+        version: 'UNKNOWN' | string,
+        edition: 'UNKNOWN' | string
+    },
+    configuration: {
+        protocols: {
+            bolt: {
+                enabled: boolean,
+                host: string,
+                port: number,
+                tlsLevel: 'OPTIONAL' | 'REQUIRED' | 'DISABLED',
+                username?: string,
+                password?: string
+            }
+        }
+    }
+}
+
+type GraphRemoteConnectionStatus =
+    | 'UNKNOWN'
+    | 'NEW'
+    | 'CREATING'
+    | 'REMOVING'
+    | 'ACTIVATING'
+    | 'AVAILABLE'
+    | 'NOT_AVAILABLE'
+    | 'DEACTIVATING'
+    | 'DEACTIVATED'
+    ;
+
 //---------------
 // Events
 //---------------
@@ -283,6 +317,8 @@ type Event =
     | ProjectCreatedEvent
     | ProjectRemovedEvent
     | ProjectRenamedEvent
+    | GraphActiveEvent
+    | GraphInactiveEvent
     | DatabaseCreatedEvent
     | DatabaseStartedEvent
     | DatabaseStoppedEvent
@@ -290,7 +326,11 @@ type Event =
     | DatabaseRemovedEvent
     | DatabaseUpdatedEvent
     | DatabaseUpgradedEvent
-    | DatabaseSettingsSaved
+    | DatabaseSettingsSavedEvent
+    | RemoteConnectionCreatedEvent
+    | RemoteConnectionRemovedEvent
+    | RemoteConnectionActivatedEvent
+    | RemoteConnectionDeactivatedEvent
 ;
 
 type ProjectCreatedEvent = {
@@ -308,6 +348,16 @@ type ProjectRenamedEvent = {
     type: 'PROJECT_RENAMED',
     id: string,
     name: string
+}
+
+type GraphActiveEvent = {
+    type: 'DATABASE_ACTIVE',
+    id: string
+}
+
+type GraphInactiveEvent = {
+    type: 'DATABASE_INACTIVE',
+    id: string
 }
 
 type DatabaseCreatedEvent = {
@@ -356,8 +406,28 @@ type DatabaseUpgradedEvent = {
     version: string
 };
 
-type DatabaseSettingsSaved = {
+type DatabaseSettingsSavedEvent = {
     type: 'DATABASE_SETTINGS_SAVED',
     id: string
 };
+
+type RemoteConnectionCreatedEvent = {
+    type: 'REMOTE_CONNECTION_CREATED',
+    id: string
+}
+
+type RemoteConnectionRemovedEvent = {
+    type: 'REMOTE_CONNECTION_REMOVED',
+    id: string
+}
+
+type RemoteConnectionActivatedEvent = {
+    type: 'REMOTE_CONNECTION_ACTIVATED',
+    id: string
+}
+
+type RemoteConnectionDeactivatedEvent = {
+    type: 'REMOTE_CONNECTION_DEACTIVATED',
+    id: string
+}
 ```

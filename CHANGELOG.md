@@ -1,5 +1,21 @@
 # Changelog
 
+### 16.10.2017
+
+**Bump API Version:** 1.2.0
+
+- Remote Connections introduced
+  - `Graph.connection` can now be `GraphRemoteConnection`
+  - Added `GraphRemoteConnection` type
+  - Events:
+    - `RemoteConnectionCreatedEvent`
+    - `RemoteConnectionRemovedEvent`
+    - `RemoteConnectionActivatedEvent`
+    - `RemoteConnectionDeactivatedEvent`
+- Graph active/inactive events introduced
+  - `GraphActiveEvent`
+  - `GraphInactiveEvent`
+
 ### 07.10.2017
 
 **Bump API Version:** 1.1.0

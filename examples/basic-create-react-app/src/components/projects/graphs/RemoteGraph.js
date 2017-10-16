@@ -8,7 +8,7 @@ export default function Graph({graph}) {
             <ul>
                 {
                     _.keys(protocol).map((key) => (
-                        <li key={key}>{key}: {(protocol[key]).toString()}</li>
+                        <li key={key}>{key}: {String(protocol[key])}</li>
                     ))
                 }
             </ul>
@@ -37,13 +37,10 @@ export default function Graph({graph}) {
                         <li>
                             <b>Configuration</b>
                             <ul>
-                                <li><b>Path:</b> {graph.connection.configuration.path}</li>
                                 <li>
                                     <b>Protocols:</b>
                                     <ul>
                                         {protocol('bolt', graph.connection.configuration.protocols.bolt)}
-                                        {protocol('http', graph.connection.configuration.protocols.http)}
-                                        {protocol('https', graph.connection.configuration.protocols.https)}
                                     </ul>
                                 </li>
                             </ul>

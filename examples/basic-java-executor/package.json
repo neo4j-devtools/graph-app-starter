@@ -11,7 +11,7 @@
     "serve-dist": "serve -s dist"
   },
   "neo4jDesktop": {
-    "apiVersion": "1.1.0"
+    "apiVersion": "1.2.0"
   },
   "devDependencies": {
     "serve": "^6.2.0"
