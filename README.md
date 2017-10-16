@@ -50,22 +50,22 @@ Available examples:
 
 ```js
 /**
- * If application can run in multiple environments, detect that we are in Desktop. 
+ * If application can run in multiple environments, detect that we are in Desktop.
  */
 if (window.neo4jDesktopApi) {
     // API will be available in global `window` variable `neo4jDesktopApi`.
 
-    
+
     // Listen for context changes
     neo4jDesktopApi.onContextUpdate((event, newContext, oldContext) => {
         if (event.type === '...') {
             // do something if event is of specific type
         }
-        
+
        // check context changes and apply them
     });
-    
-    // Get current context. 
+
+    // Get current context.
     // Should be used if application requires current context when it starts.
     neo4jDesktopApi.getContext()
         .then((context) => {
@@ -85,7 +85,7 @@ Example:
 
 ```json
 {
-    "name": "My Graph App",
+    "name": "my-graph-app",
     "description": "(desktop)-[:LOVES]->(apps)",
     "neo4jDesktop": {
         "apiVersion": "1.1.0"
@@ -115,7 +115,7 @@ Example:
 [
     {
         "appName": "My Graph App",
-        "packageUrl": "https://registry.npmjs.org/myGraphApp"
+        "packageUrl": "https://registry.npmjs.org/my-graph-app"
     }
 ]
 ```
@@ -137,7 +137,7 @@ Example:
 | Windows | %APPDATA%/Neo4j Desktop |
 | Linux | ~/.config/Neo4j Desktop |
 
-## Reference 
+## Reference
 
 *Note:* API is under development and it can be changed, based on user feedback.
 
@@ -151,14 +151,14 @@ window.neo4jDesktopApi = {
      * Asynchronously get current context.
      */
     getContext: () => Promise<Context>,
-    
+
     /**
      * Register callback to receive context updates when events are happening.
      */
     onContextUpdate: (event: Event, newContext: Context, oldContext: Context) => void,
-    
+
     /**
-     *  Execute any jar, bundled inside you app package or given path. Will return complete stdout 
+     *  Execute any jar, bundled inside you app package or given path. Will return complete stdout
      */
     executeJava: (parameters: JavaParameters) => JavaResult
 };
@@ -175,19 +175,19 @@ export type JavaParameters = {
      * Example: './test.jar'
      */
     ['class' | 'jar']: string,
-    
+
     /**
      * JVM arguments.
      * Example: ['-DmyProperty=value', '-Xdebug']
      */
     options: string[],
-    
+
     /**
      * Jar's that will be added to classpath.
      * Example: ['./test.jar', '/opt/lib/test.jar']
      */
     classpath: string[],
-    
+
     /**
      * Argument passed to a main.
      * Example: ['one', 'two', 'three']
@@ -279,7 +279,7 @@ type GraphLocalConnectionStatus =
 // Events
 //---------------
 
-type Event = 
+type Event =
     | ProjectCreatedEvent
     | ProjectRemovedEvent
     | ProjectRenamedEvent

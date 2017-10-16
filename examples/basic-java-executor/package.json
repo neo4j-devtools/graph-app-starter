@@ -1,0 +1,19 @@
+{
+  "name": "basic-java-executor",
+  "description": "Graph App - Basic Java Executor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && mkdir dist && cp index.html test.jar dist",
+    "serve-dist": "serve -s dist"
+  },
+  "neo4jDesktop": {
+    "apiVersion": "1.1.0"
+  },
+  "devDependencies": {
+    "serve": "^6.2.0"
+  }
+}

@@ -1,7 +1,11 @@
 {
   "name": "basic-create-react-app",
+  "homepage": ".",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "neo4jDesktop": {
+    "apiVersion": "1.1.0"
+  },
   "dependencies": {
     "lodash": "^4.17.4",
     "purecss": "^1.0.0",
@@ -14,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && mv build dist",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
