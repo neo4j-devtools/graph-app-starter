@@ -81,6 +81,8 @@ where `dist` folder contains a default app entry point `index.html`. App should 
 
 Manifest file `package.json` should also include Neo4j Desktop API version that is used.
 
+*Note:* You can either specify explicit `apiVersion` or semver range.
+
 Example:
 
 ```json
@@ -88,7 +90,7 @@ Example:
     "name": "my-graph-app",
     "description": "(desktop)-[:LOVES]->(apps)",
     "neo4jDesktop": {
-        "apiVersion": "1.1.0"
+        "apiVersion": "^1.2.0"
     }
 }
 ```
