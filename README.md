@@ -353,12 +353,12 @@ type ProjectRenamedEvent = {
 }
 
 type GraphActiveEvent = {
-    type: 'DATABASE_ACTIVE',
+    type: 'GRAPH_ACTIVE',
     id: string
 }
 
 type GraphInactiveEvent = {
-    type: 'DATABASE_INACTIVE',
+    type: 'GRAPH_INACTIVE',
     id: string
 }
 
