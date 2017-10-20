@@ -1,5 +1,10 @@
 # Changelog
 
+### 20.10.2017
+
+- Externally configured apps
+    - `appId` field is now mandatory
+
 ### 16.10.2017
 
 **Bump API Version:** 1.2.0

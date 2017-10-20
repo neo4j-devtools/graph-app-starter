@@ -106,6 +106,7 @@ Configuration file format:
 
 ```js
 type GraphAppConfiguration = Array<{
+    appId: string,
     appName: string,
     packageUrl: string
 }>
@@ -116,6 +117,7 @@ Example:
 ```json
 [
     {
+        "appId": "my-graph-app",
         "appName": "My Graph App",
         "packageUrl": "https://registry.npmjs.org/my-graph-app"
     }
