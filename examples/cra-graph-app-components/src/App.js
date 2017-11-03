@@ -66,7 +66,7 @@ class App extends Component {
         </header>
         <p>
           This application connects to the active Neo4j graph and executes a
-          cypher query on it every 3 secods and display it's result in an ascii
+          cypher query on it every 3 secods and display its result in an ascii
           table.
         </p>
         <p>
