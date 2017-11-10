@@ -21,6 +21,7 @@ First, install some things:
   - https://github.com/deoxxa/npmrc
   - a util for switching between npm registries
     - `npmrc -c local` to create a new registry
+    - `npmrc local` to use that registry
     - `npm set registry http://localhost:4873`
     - `npmrc default` to switch back to the "normal" registry
 
