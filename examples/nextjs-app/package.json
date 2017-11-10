@@ -1,0 +1,27 @@
+{
+  "name": "nextjs-graphapp",
+  "version": "1.0.1",
+  "description": "Example Neo4j GraphApp using nextjs",
+  "neo4jDesktop": {
+    "apiVersion": "^1.2.0"
+  },
+  "engines": {
+    "node": ">=9.1.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build && next export -o dist",
+    "start": "next start"
+  },
+  "author": "Neo4j, Inc.",
+  "license": "ISC",
+  "dependencies": {
+    "furtive": "^2.4.0",
+    "graph-app-kit": "^0.3.2",
+    "next": "^4.1.4",
+    "normalize.css": "^7.0.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  }
+}
