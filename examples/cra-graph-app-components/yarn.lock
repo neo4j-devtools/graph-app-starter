@@ -2,6 +2,208 @@
 # yarn lockfile v1
 
 
+"@data-ui/radial-chart@0.0.11":
+  version "0.0.11"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@data-ui/radial-chart/-/radial-chart-0.0.11.tgz#281910dc215dd1a63d87eca1e1d220e7297b1703"
+  dependencies:
+    "@data-ui/theme" "0.0.9"
+    "@vx/event" "0.0.140"
+    "@vx/group" "0.0.140"
+    "@vx/scale" "0.0.140"
+    "@vx/shape" "0.0.140"
+    "@vx/tooltip" "0.0.140"
+    prop-types "^15.5.10"
+
+"@data-ui/theme@0.0.9":
+  version "0.0.9"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@data-ui/theme/-/theme-0.0.9.tgz#a9d66b20d74018009c129eed4326ca4ef3b83127"
+
+"@data-ui/xy-chart@0.0.25":
+  version "0.0.25"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@data-ui/xy-chart/-/xy-chart-0.0.25.tgz#5d104a48003cdf97817bea983000f6556c076ae6"
+  dependencies:
+    "@data-ui/theme" "0.0.9"
+    "@vx/axis" "0.0.140"
+    "@vx/curve" "0.0.140"
+    "@vx/event" "0.0.140"
+    "@vx/glyph" "0.0.140"
+    "@vx/gradient" "0.0.140"
+    "@vx/grid" "0.0.140"
+    "@vx/group" "0.0.140"
+    "@vx/pattern" "0.0.140"
+    "@vx/point" "0.0.136"
+    "@vx/responsive" "0.0.140"
+    "@vx/scale" "0.0.140"
+    "@vx/shape" "0.0.140"
+    "@vx/tooltip" "0.0.140"
+    "@vx/voronoi" "0.0.140"
+    d3-array "^1.2.0"
+    prop-types "^15.5.10"
+
+"@vx/axis@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/axis/-/axis-0.0.140.tgz#aad557c281c6cc21c1516977301552c7052e5224"
+  dependencies:
+    "@vx/group" "0.0.140"
+    "@vx/point" "0.0.136"
+    "@vx/shape" "0.0.140"
+    classnames "^2.2.5"
+    prop-types "15.5.10"
+
+"@vx/axis@^0.0.142":
+  version "0.0.142"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/axis/-/axis-0.0.142.tgz#99353d4430aa1d1136c7a5a8c7287550f21c1d12"
+  dependencies:
+    "@vx/group" "0.0.140"
+    "@vx/point" "0.0.136"
+    "@vx/shape" "0.0.142"
+    classnames "^2.2.5"
+    prop-types "15.5.10"
+
+"@vx/bounds@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/bounds/-/bounds-0.0.140.tgz#4ede9766aabb41b791a4fbf4c27fcc19ed83f910"
+  dependencies:
+    prop-types "^15.5.10"
+
+"@vx/curve@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/curve/-/curve-0.0.140.tgz#29ef388e8b3718213d66a896d569dc1ebc8edf89"
+  dependencies:
+    d3-shape "^1.0.6"
+
+"@vx/event@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/event/-/event-0.0.140.tgz#658ec4de92cd61df40b883296168d4e0824015bf"
+  dependencies:
+    "@vx/point" "0.0.136"
+
+"@vx/glyph@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/glyph/-/glyph-0.0.140.tgz#f8323f82aee22192b675bef25789bbb7d74691ba"
+  dependencies:
+    "@vx/group" "0.0.140"
+    classnames "^2.2.5"
+    d3-shape "^1.2.0"
+
+"@vx/gradient@0.0.140", "@vx/gradient@^0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/gradient/-/gradient-0.0.140.tgz#56b421016cbae0dcb00190cfffb9e860a28febf4"
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.7"
+
+"@vx/grid@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/grid/-/grid-0.0.140.tgz#9dfd3071bc5d90d4b457dd55d7f795699233b230"
+  dependencies:
+    "@vx/group" "0.0.140"
+    "@vx/point" "0.0.136"
+    "@vx/shape" "0.0.140"
+    classnames "^2.2.5"
+
+"@vx/grid@^0.0.142":
+  version "0.0.142"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/grid/-/grid-0.0.142.tgz#c2ee59522b72bf92d737dd21c37efc9fa93305da"
+  dependencies:
+    "@vx/group" "0.0.140"
+    "@vx/point" "0.0.136"
+    "@vx/shape" "0.0.142"
+    classnames "^2.2.5"
+
+"@vx/group@0.0.140", "@vx/group@^0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/group/-/group-0.0.140.tgz#cba9b0b3f2f007e5be7346f3c86f73f70e038a23"
+  dependencies:
+    classnames "^2.2.5"
+
+"@vx/group@0.0.143":
+  version "0.0.143"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/group/-/group-0.0.143.tgz#38dbd3fa2740d573c6fdfc691ebc15e85d3eb01b"
+  dependencies:
+    classnames "^2.2.5"
+
+"@vx/legend@0.0.143":
+  version "0.0.143"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/legend/-/legend-0.0.143.tgz#a1b50087298123f1e65de26a3bc73a6bd9268421"
+  dependencies:
+    "@vx/group" "0.0.143"
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
+
+"@vx/mock-data@^0.0.136":
+  version "0.0.136"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/mock-data/-/mock-data-0.0.136.tgz#726c5f23fde25f22ff442f93bea398a3e695b6b7"
+  dependencies:
+    d3-random "^1.0.3"
+
+"@vx/pattern@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/pattern/-/pattern-0.0.140.tgz#f49f57c6f13cb5b3baaa5bbec174c5d3aa782da7"
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
+
+"@vx/point@0.0.136":
+  version "0.0.136"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/point/-/point-0.0.136.tgz#93b325b4b95c9d5b96df740f4204017f57396559"
+
+"@vx/responsive@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/responsive/-/responsive-0.0.140.tgz#c73ec68b9e89a181605f1ac9ecc09f35216779a8"
+  dependencies:
+    lodash "^4.0.8"
+
+"@vx/scale@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/scale/-/scale-0.0.140.tgz#1eb087d11d0000b250c2cdc4061b9e2212edb10d"
+  dependencies:
+    d3-scale "^1.0.5"
+
+"@vx/scale@^0.0.143":
+  version "0.0.143"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/scale/-/scale-0.0.143.tgz#4a13ab93f4d59cb487d6278b55606f2460091d0b"
+  dependencies:
+    d3-scale "^1.0.5"
+
+"@vx/shape@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/shape/-/shape-0.0.140.tgz#6a282d5fdf3a5752b6e938bb3debe983e89ff6d3"
+  dependencies:
+    "@vx/curve" "0.0.140"
+    "@vx/group" "0.0.140"
+    "@vx/point" "0.0.136"
+    classnames "^2.2.5"
+    d3-shape "^1.2.0"
+    prop-types "^15.5.10"
+
+"@vx/shape@0.0.142":
+  version "0.0.142"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/shape/-/shape-0.0.142.tgz#3728eda292c004e61d9f88ae119b6154ccbf79e5"
+  dependencies:
+    "@vx/curve" "0.0.140"
+    "@vx/group" "0.0.140"
+    "@vx/point" "0.0.136"
+    classnames "^2.2.5"
+    d3-shape "^1.2.0"
+    prop-types "^15.5.10"
+
+"@vx/tooltip@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/tooltip/-/tooltip-0.0.140.tgz#c5c8306272877c1bbd4e8b478ea5291f1019ffe3"
+  dependencies:
+    "@vx/bounds" "0.0.140"
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
+
+"@vx/voronoi@0.0.140":
+  version "0.0.140"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/@vx/voronoi/-/voronoi-0.0.140.tgz#7bbfea80e6f3531dfdd9dee94000a4a39fa4d4d6"
+  dependencies:
+    "@vx/group" "0.0.140"
+    classnames "^2.2.5"
+    d3-voronoi "^1.1.2"
+
 abab@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -910,7 +1112,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1325,6 +1527,10 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
+classnames@^2.2.5:
+  version "2.2.5"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+
 clean-css@4.1.x:
   version "4.1.9"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.9.tgz#35cee8ae7687a49b98034f70de00c4edd3826301"
@@ -1719,6 +1925,68 @@ currently-unhandled@^0.4.1:
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
   dependencies:
     array-find-index "^1.0.1"
+
+d3-array@^1.2.0:
+  version "1.2.1"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-array/-/d3-array-1.2.1.tgz#d1ca33de2f6ac31efadb8e050a021d7e2396d5dc"
+
+d3-collection@1:
+  version "1.0.4"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-collection/-/d3-collection-1.0.4.tgz#342dfd12837c90974f33f1cc0a785aea570dcdc2"
+
+d3-color@1:
+  version "1.0.3"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-color/-/d3-color-1.0.3.tgz#bc7643fca8e53a8347e2fbdaffa236796b58509b"
+
+d3-format@1:
+  version "1.2.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-format/-/d3-format-1.2.0.tgz#6b480baa886885d4651dc248a8f4ac9da16db07a"
+
+d3-interpolate@1:
+  version "1.1.5"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-interpolate/-/d3-interpolate-1.1.5.tgz#69e099ff39214716e563c9aec3ea9d1ea4b8a79f"
+  dependencies:
+    d3-color "1"
+
+d3-path@1:
+  version "1.0.5"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-path/-/d3-path-1.0.5.tgz#241eb1849bd9e9e8021c0d0a799f8a0e8e441764"
+
+d3-random@^1.0.3:
+  version "1.1.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-random/-/d3-random-1.1.0.tgz#6642e506c6fa3a648595d2b2469788a8d12529d3"
+
+d3-scale@^1.0.5:
+  version "1.0.6"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-scale/-/d3-scale-1.0.6.tgz#bce19da80d3a0cf422c9543ae3322086220b34ed"
+  dependencies:
+    d3-array "^1.2.0"
+    d3-collection "1"
+    d3-color "1"
+    d3-format "1"
+    d3-interpolate "1"
+    d3-time "1"
+    d3-time-format "2"
+
+d3-shape@^1.0.6, d3-shape@^1.2.0:
+  version "1.2.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-shape/-/d3-shape-1.2.0.tgz#45d01538f064bafd05ea3d6d2cb748fd8c41f777"
+  dependencies:
+    d3-path "1"
+
+d3-time-format@2:
+  version "2.1.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-time-format/-/d3-time-format-2.1.0.tgz#a1d9540a1dc498817d44066b121b19a4a83e3531"
+  dependencies:
+    d3-time "1"
+
+d3-time@1:
+  version "1.0.7"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-time/-/d3-time-1.0.7.tgz#94caf6edbb7879bb809d0d1f7572bc48482f7270"
+
+d3-voronoi@^1.1.2:
+  version "1.1.2"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/d3-voronoi/-/d3-voronoi-1.1.2.tgz#1687667e8f13a2d158c80c1480c5a29cb0d8973c"
 
 d@1:
   version "1.0.0"
@@ -2469,7 +2737,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.16:
+fbjs@^0.8.16, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -2802,11 +3070,25 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-graph-app-kit@^0.3.2:
-  version "0.3.2"
-  resolved "https://neo.jfrog.io/neo/api/npm/npm/graph-app-kit/-/graph-app-kit-0.3.2.tgz#47ef42b880c699d252c1c65e868e7b9ade194eb0"
+graph-app-kit@^0.4.0:
+  version "0.4.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/graph-app-kit/-/graph-app-kit-0.4.0.tgz#41275302c7608b67f487316316d705eae02ba1f2"
   dependencies:
+    "@data-ui/radial-chart" "0.0.11"
+    "@data-ui/theme" "0.0.9"
+    "@data-ui/xy-chart" "0.0.25"
+    "@vx/axis" "^0.0.142"
+    "@vx/glyph" "0.0.140"
+    "@vx/gradient" "^0.0.140"
+    "@vx/grid" "^0.0.142"
+    "@vx/group" "^0.0.140"
+    "@vx/legend" "0.0.143"
+    "@vx/mock-data" "^0.0.136"
+    "@vx/scale" "^0.0.143"
+    "@vx/shape" "0.0.142"
     ascii-data-table "^2.1.1"
+    semantic-ui-css "^2.2.12"
+    semantic-ui-react "^0.74.2"
 
 growly@^1.3.0:
   version "1.3.0"
@@ -3676,6 +3958,10 @@ jest@20.0.4:
   dependencies:
     jest-cli "^20.0.4"
 
+jquery@x.*:
+  version "3.2.1"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
 js-base64@^2.1.9:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.3.2.tgz#a79a923666372b580f8e27f51845c6f7e8fbfbaf"
@@ -3943,7 +4229,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-"lodash@>=3.5 <5", lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.3.0:
+"lodash@>=3.5 <5", lodash@^4.0.8, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4974,7 +5260,14 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.6.0:
+prop-types@15.5.10:
+  version "15.5.10"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -5558,6 +5851,21 @@ selfsigned@^1.9.1:
   resolved "https://registry.yarnpkg.com/selfsigned/-/selfsigned-1.10.1.tgz#bf8cb7b83256c4551e31347c6311778db99eec52"
   dependencies:
     node-forge "0.6.33"
+
+semantic-ui-css@^2.2.12:
+  version "2.2.12"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/semantic-ui-css/-/semantic-ui-css-2.2.12.tgz#afc462e5bb4f8a0dcfe3dca11274499a997490dd"
+  dependencies:
+    jquery x.*
+
+semantic-ui-react@^0.74.2:
+  version "0.74.2"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/semantic-ui-react/-/semantic-ui-react-0.74.2.tgz#0a55f6f22dd61780600664931813f302262c330d"
+  dependencies:
+    babel-runtime "^6.25.0"
+    classnames "^2.2.5"
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
 
 semver-diff@^2.0.0:
   version "2.1.0"

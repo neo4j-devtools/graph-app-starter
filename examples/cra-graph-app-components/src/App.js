@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { DriverProvider, Cypher } from "graph-app-kit/utils";
+import { Cypher } from "graph-app-kit/utils/Cypher";
+import { DriverProvider } from "graph-app-kit/utils/DriverProvider";
 import {
   DesktopIntegration,
   helpers
 } from "graph-app-kit/utils/DesktopIntegration";
-import { AsciiTable, Render } from "graph-app-kit/ui";
+import { AsciiTable } from "graph-app-kit/ui/AsciiTable";
+import { Render } from "graph-app-kit/ui/Render";
 import "./App.css";
 
 const neo4j = require("neo4j-driver/lib/browser/neo4j-web.min.js").v1;
@@ -33,7 +35,8 @@ class App extends Component {
     this.driver = null;
   }
   state = {
-    driverCredentials: null
+    driverCredentials: null,
+    cTag: 1
   };
   onConnectionChange = context => {
     const creds = helpers.getActiveCredentials("bolt", context);
@@ -57,6 +60,9 @@ class App extends Component {
       username && password ? neo4j.auth.basic(username, password) : undefined;
     this.driver = neo4j.driver(host, auth, { encrypted });
     this.forceUpdate();
+  };
+  reRunManually = () => {
+    this.setState(state => ({ cTag: state.cTag + 1 }));
   };
   render() {
     return (
@@ -83,12 +89,21 @@ class App extends Component {
         />
         <Render if={this.driver !== null}>
           <DriverProvider driver={this.driver}>
+            <h3>Automatic re-run using interval</h3>
             <Cypher
               query="CALL dbms.queryJmx('org.neo4j:instance=kernel#0,name=Kernel') YIELD attributes
               RETURN attributes.StoreId.value as dbStoreId, attributes.DatabaseName.value as dbName, rand() as random1, rand() as random2"
               render={queryResultView}
               interval={3}
             />
+            <h3>Manual re-run using cTag</h3>
+            <Cypher
+              cTag={this.state.cTag}
+              query="CALL dbms.queryJmx('org.neo4j:instance=kernel#0,name=Kernel') YIELD attributes
+              RETURN attributes.StoreId.value as dbStoreId, attributes.DatabaseName.value as dbName, rand() as random1, rand() as random2"
+              render={queryResultView}
+            />
+            <button onClick={this.reRunManually}>Re-run manually</button>
           </DriverProvider>
         </Render>
       </div>
