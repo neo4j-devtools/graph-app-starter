@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Cypher } from "graph-app-kit/utils/Cypher";
-import { DriverProvider } from "graph-app-kit/utils/DriverProvider";
 import {
-  DesktopIntegration,
-  helpers
-} from "graph-app-kit/utils/DesktopIntegration";
+  GraphAppBase,
+  ConnectModal,
+  CONNECTED
+} from "graph-app-kit/utils/GraphAppBase";
 import { AsciiTable } from "graph-app-kit/ui/AsciiTable";
 import { Render } from "graph-app-kit/ui/Render";
 import "./App.css";
+import "semantic-ui-css/semantic.min.css";
 
 const neo4j = require("neo4j-driver/lib/browser/neo4j-web.min.js").v1;
 
@@ -21,52 +22,25 @@ const formatRecords = records => {
 
 const queryResultView = ({ pending, error, result }) => {
   return pending ? (
-    "pending"
+    <div style={{ height: "60px" }}>pending</div>
   ) : error ? (
-    error.message
+    <div style={{ height: "60px" }}>{error.message}</div>
   ) : result ? (
     <AsciiTable data={formatRecords(result.records)} />
   ) : null;
 };
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.driver = null;
-  }
+class MyApp extends Component {
   state = {
-    driverCredentials: null,
     cTag: 1
   };
-  onConnectionChange = context => {
-    const creds = helpers.getActiveCredentials("bolt", context);
-    const driverCredentials = {
-      host: `bolt://${creds.host}:${creds.port}`,
-      encrypted: creds.tlsLevel === "REQUIRED",
-      username: creds.username || null,
-      password: creds.password || null
-    };
-    this.setState({ driverCredentials }, this.connectDriver);
-  };
-  connectDriver = () => {
-    if (this.driver) this.driver.close();
-    const {
-      host,
-      username,
-      password,
-      encrypted
-    } = this.state.driverCredentials;
-    const auth =
-      username && password ? neo4j.auth.basic(username, password) : undefined;
-    this.driver = neo4j.driver(host, auth, { encrypted });
-    this.forceUpdate();
-  };
+
   reRunManually = () => {
     this.setState(state => ({ cTag: state.cTag + 1 }));
   };
   render() {
     return (
-      <div className="App">
+      <div className="App" key="app">
         <header className="App-header">
           <h1 className="App-title">Graph app demo</h1>
         </header>
@@ -81,18 +55,12 @@ class App extends Component {
           <br />This app only works for local connection without authentication,
           or remote connections.
         </p>
-
-        <DesktopIntegration
-          integrationPoint={window.neo4jDesktopApi}
-          onMount={context => this.onConnectionChange(context)}
-          onGraphActive={(_, context) => this.onConnectionChange(context)}
-        />
-        <Render if={this.driver !== null}>
-          <DriverProvider driver={this.driver}>
+        <Render if={this.props.connected}>
+          <div>
             <h3>Automatic re-run using interval</h3>
             <Cypher
               query="CALL dbms.queryJmx('org.neo4j:instance=kernel#0,name=Kernel') YIELD attributes
-              RETURN attributes.StoreId.value as dbStoreId, attributes.DatabaseName.value as dbName, rand() as random1, rand() as random2"
+RETURN attributes.StoreId.value as dbStoreId, attributes.DatabaseName.value as dbName, rand() as random1, rand() as random2"
               render={queryResultView}
               interval={3}
             />
@@ -100,13 +68,35 @@ class App extends Component {
             <Cypher
               cTag={this.state.cTag}
               query="CALL dbms.queryJmx('org.neo4j:instance=kernel#0,name=Kernel') YIELD attributes
-              RETURN attributes.StoreId.value as dbStoreId, attributes.DatabaseName.value as dbName, rand() as random1, rand() as random2"
+RETURN attributes.StoreId.value as dbStoreId, attributes.DatabaseName.value as dbName, rand() as random1, rand() as random2"
               render={queryResultView}
             />
             <button onClick={this.reRunManually}>Re-run manually</button>
-          </DriverProvider>
+          </div>
         </Render>
       </div>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <GraphAppBase
+        driverFactory={neo4j}
+        integrationPoint={window.neo4jDesktopApi}
+        render={({ connectionState, connectionDetails, setCredentials }) => {
+          return [
+            <ConnectModal
+              key="modal"
+              errorMsg={connectionDetails ? connectionDetails.message : ""}
+              onSubmit={setCredentials}
+              show={connectionState !== CONNECTED}
+            />,
+            <MyApp key="app" connected={connectionState === CONNECTED} />
+          ];
+        }}
+      />
     );
   }
 }

@@ -3070,9 +3070,9 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-graph-app-kit@^0.4.0:
-  version "0.4.0"
-  resolved "https://neo.jfrog.io/neo/api/npm/npm/graph-app-kit/-/graph-app-kit-0.4.0.tgz#41275302c7608b67f487316316d705eae02ba1f2"
+graph-app-kit@^0.6.0:
+  version "0.6.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/graph-app-kit/-/graph-app-kit-0.6.0.tgz#23014072c5a45802c4486867ad04a78470659d89"
   dependencies:
     "@data-ui/radial-chart" "0.0.11"
     "@data-ui/theme" "0.0.9"
