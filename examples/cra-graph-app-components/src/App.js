@@ -79,26 +79,24 @@ RETURN attributes.StoreId.value as dbStoreId, attributes.DatabaseName.value as d
   }
 }
 
-class App extends Component {
-  render() {
-    return (
-      <GraphAppBase
-        driverFactory={neo4j}
-        integrationPoint={window.neo4jDesktopApi}
-        render={({ connectionState, connectionDetails, setCredentials }) => {
-          return [
-            <ConnectModal
-              key="modal"
-              errorMsg={connectionDetails ? connectionDetails.message : ""}
-              onSubmit={setCredentials}
-              show={connectionState !== CONNECTED}
-            />,
-            <MyApp key="app" connected={connectionState === CONNECTED} />
-          ];
-        }}
-      />
-    );
-  }
-}
+const App = () => {
+  return (
+    <GraphAppBase
+      driverFactory={neo4j}
+      integrationPoint={window.neo4jDesktopApi}
+      render={({ connectionState, connectionDetails, setCredentials }) => {
+        return [
+          <ConnectModal
+            key="modal"
+            errorMsg={connectionDetails ? connectionDetails.message : ""}
+            onSubmit={setCredentials}
+            show={connectionState !== CONNECTED}
+          />,
+          <MyApp key="app" connected={connectionState === CONNECTED} />
+        ];
+      }}
+    />
+  );
+};
 
 export default App;
