@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Cypher } from "graph-app-kit/utils/Cypher";
+import { Cypher } from "graph-app-kit/components/Cypher";
 import {
   GraphAppBase,
   ConnectModal,
   CONNECTED
-} from "graph-app-kit/utils/GraphAppBase";
-import { AsciiTable } from "graph-app-kit/ui/AsciiTable";
-import { Render } from "graph-app-kit/ui/Render";
+} from "graph-app-kit/components/GraphAppBase";
+import { AsciiTable } from "graph-app-kit/components/AsciiTable";
+import { Render } from "graph-app-kit/components/Render";
 import "./App.css";
 import "semantic-ui-css/semantic.min.css";
 
