@@ -1,6 +1,6 @@
 {
-  "short_name": "Freetext Query",
-  "name": "Neo4j Freetext Query",
+  "short_name": "Semantic GraphApp",
+  "name": "Neo4j GraphApp",
   "icons": [
     {
       "src": "favicon.ico",

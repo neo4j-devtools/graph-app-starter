@@ -7,9 +7,14 @@ import {
   Segment
 } from 'semantic-ui-react';
 
-import {DriverProvider, Cypher} from "graph-app-kit/utils";
-import {DesktopIntegration, helpers} from "graph-app-kit/utils/DesktopIntegration";
-import {AsciiTable, Render} from "graph-app-kit/ui";
+import {
+  GraphAppBase,
+  ConnectModal,
+  CONNECTED
+} from "graph-app-kit/components/GraphAppBase";
+import { Cypher } from "graph-app-kit/components/Cypher";
+import { AsciiTable } from "graph-app-kit/components/AsciiTable";
+import { Render } from "graph-app-kit/components/Render";
 
 const neo4j = require("neo4j-driver/lib/browser/neo4j-web.min.js").v1;
 
@@ -33,39 +38,16 @@ const queryResultView = ({pending, error, result}) => {
         : null;
 };
 
-class App extends Component {
+class ConnectedApp extends Component {
 
   state = {
-    driverCredentials: null
+    cTag: 1
   };
 
-  constructor(props) {
-    super(props);
-    this.driver = null;
-  }
+  reRunManually = () => {
+    this.setState(state => ({ cTag: state.cTag + 1 }));
+  };
 
-  onConnectionChange = context => {
-    const creds = helpers.getActiveCredentials("bolt", context);
-    const driverCredentials = {
-      host: `bolt://${creds.host}:${creds.port}`,
-      encrypted: creds.tlsLevel === "REQUIRED",
-      username: creds.username || null,
-      password: creds.password || null
-    };
-    this.setState({
-      driverCredentials
-    }, this.connectDriver);
-  };
-  connectDriver = () => {
-    if (this.driver)
-      this.driver.close();
-    const {host, username, password, encrypted} = this.state.driverCredentials;
-    const auth = username && password
-      ? neo4j.auth.basic(username, password)
-      : undefined;
-    this.driver = neo4j.driver(host, auth, {encrypted});
-    this.forceUpdate();
-  };
   render() {
 
     return (
@@ -115,12 +97,9 @@ class App extends Component {
             </Grid.Row>
             <Grid.Row>
               <Grid.Column textAlign='center'>
-                <DesktopIntegration integrationPoint={window.neo4jDesktopApi} onMount={context => this.onConnectionChange(context)} onGraphActive={(_, context) => this.onConnectionChange(context)}/>
-                <Render if={this.driver !== null}>
-                  <DriverProvider driver={this.driver}>
+                <Render if={this.props.connected}>
                     <Cypher query="CALL dbms.queryJmx('org.neo4j:instance=kernel#0,name=Kernel') YIELD attributes
                 RETURN attributes.StoreId.value as dbStoreId, attributes.DatabaseName.value as dbName, rand() as random1, rand() as random2" render={queryResultView} interval={3}/>
-                  </DriverProvider>
                 </Render>
               </Grid.Column>
             </Grid.Row>
@@ -133,5 +112,25 @@ class App extends Component {
     );
   }
 }
+
+const App = () => {
+  return (
+    <GraphAppBase
+      driverFactory={neo4j}
+      integrationPoint={window.neo4jDesktopApi}
+      render={({ connectionState, connectionDetails, setCredentials }) => {
+        return [
+          <ConnectModal
+            key="modal"
+            errorMsg={connectionDetails ? connectionDetails.message : ""}
+            onSubmit={setCredentials}
+            show={connectionState !== CONNECTED}
+          />,
+          <ConnectedApp key="app" connected={connectionState === CONNECTED} />
+        ];
+      }}
+    />
+  );
+};
 
 export default App;
