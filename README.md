@@ -114,7 +114,8 @@ The package URL should point to the applications package root which lists all av
 | OS | Location |
 |----|----------|
 | macOS | ~/Library/Application Support/Neo4j Desktop |
-| Windows | %APPDATA%/Neo4j Desktop |
+| Windows pre 1.0.19 | %APPDATA%/Neo4j Desktop |
+| Windows post 1.0.19 | %USERPROFILE%/.Neo4jDesktop |
 | Linux | ~/.config/Neo4j Desktop |
 
 ## Reference
@@ -138,9 +139,14 @@ window.neo4jDesktopApi = {
     onContextUpdate: (event: Event, newContext: Context, oldContext: Context) => void,
 
     /**
-     *  Execute any jar, bundled inside you app package or given path. Will return complete stdout
+     *  Execute any jar, bundled inside you app package or given path. Will return wrapped process with API provided
      */
-    executeJava: (parameters: JavaParameters) => JavaResult
+    executeJava: (parameters: JavaParameters) => Promise<Process>,
+
+    /**
+     *  Execute any node script, bundled inside you app package or given path. Will return wrapped process with API provided
+     */
+    executeNode: (filePath: string, args: Array<string>, options: ExecOptions): Promise<Process>
 };
 
 //---------------
@@ -175,9 +181,60 @@ export type JavaParameters = {
     arguments: string[]
 }
 
-export type JavaResult = {
-    stdout: string,
-    stderr: string
+type ProcessStatus =
+    | 'RUNNING'
+    | 'STOPPED'
+    | 'KILLED'
+    ;
+
+export type Process = {
+    /**
+     * Stop the process tree gracefully, if fails - kill the process tree forcefully
+     */
+    stop(): Promise<boolean>;
+
+    /**
+     * Get the actual status of the process
+     */
+    status(): Promise<ProcessStatus>;
+
+    /**
+     * Get the list of PIDs for whole process tree
+     */
+    getProcessTreeIds(): Promise<Array<number>>;
+
+    /**
+     * Listen to process-related errors (e.g. not being able to start)
+     */
+    onError(listener: (error: Error) => void): void;
+
+    /**
+     * Listen to process exit event. Provides the status which was assigned the last.
+     */
+    onExit(listener: (status: ProcessStatus) => void): void;
+
+    /**
+     * Attach to the stdout stream
+     */
+    addOutListener(listener: (data: string) => void): void;
+
+    /**
+     * Attach to the stderr stream
+     */
+    addErrListener(listener: (errData: string) => void): void;
+}
+
+//---------------
+// Node
+//---------------
+
+type EnvOptions = {
+    [key: string]: string
+}
+
+type ExecOptions = {
+    cwd?: string,
+    env?: EnvOptions
 }
 
 //---------------
