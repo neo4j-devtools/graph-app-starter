@@ -47,7 +47,7 @@
                         _.keys(settings).map((key) =>
                             (<tr key={key}>
                                 <td>{key}</td>
-                                <td>{settings[key].toString()}</td>
+                                <td>{String(settings[key])}</td>
                             </tr>))
                     }
                 </tbody>
