@@ -80,7 +80,6 @@ Graph App should be distributed as a valid [npm package file](https://docs.npmjs
 where `dist` folder contains a default app entry point `index.html`. App should be extractable as `zip`/`tgz` file.
 
 Manifest file `package.json` should also include Neo4j Desktop API version that is used.
-
 *Note:* You can either specify explicit `apiVersion` or semver range.
 
 Example:
@@ -92,6 +91,24 @@ Example:
     "neo4jDesktop": {
         "apiVersion": "^1.2.0"
     }
+}
+```
+
+It is possible to include `release-notes.md` on the same level as `package.json`, so that after updating graph app,
+Neo4j Desktop will display the actual release notes.
+
+To customize the look of the graph app inside Neo4j Desktop - include an icon to the distribution and add `icons`
+property to the `package.json`.
+*Note:* The path to icon should be relative to the graph app root.
+
+Example:
+```json
+{
+    "name": "my-graph-app",
+    "description": "(desktop)-[:LOVES]->(apps)",
+    "icons": [
+        "./path-to-my-icon.svg"
+    ]
 }
 ```
 
@@ -243,6 +260,7 @@ type ExecOptions = {
 
 export type Context = {
     global: {
+        online: boolean
         settings: Settings
     },
     projects: Array<Project>
@@ -351,6 +369,8 @@ type GraphRemoteConnectionStatus =
 //---------------
 
 type Event =
+    | ApplicationOnlineEvent
+    | ApplicationOfflineEvent
     | ProjectCreatedEvent
     | ProjectRemovedEvent
     | ProjectRenamedEvent
@@ -369,6 +389,14 @@ type Event =
     | RemoteConnectionActivatedEvent
     | RemoteConnectionDeactivatedEvent
 ;
+
+type ApplicationOnlineEvent = {
+    type: 'APPLICATION_ONLINE'
+}
+
+type ApplicationOfflineEvent = {
+    type: 'APPLICATION_OFFLINE'
+}
 
 type ProjectCreatedEvent = {
     type: 'PROJECT_CREATED',

@@ -1,5 +1,13 @@
 # Changelog
 
+### 11.07.2017
+
+- Application online/offline introduced
+    - `ApplicationOnlineEvent`
+    - `ApplicationOfflineEvent`
+- Graph app icons introduced
+- Add possibility to specify release notes
+
 ### 20.10.2017
 
 - Externally configured apps
