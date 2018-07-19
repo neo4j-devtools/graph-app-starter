@@ -1,6 +1,6 @@
 # Changelog
 
-### 11.07.2017
+### 19.07.2018
 
 - Application online/offline introduced
     - `ApplicationOnlineEvent`
