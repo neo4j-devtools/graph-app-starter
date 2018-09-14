@@ -88,18 +88,22 @@ Example:
 {
     "name": "my-graph-app",
     "description": "(desktop)-[:LOVES]->(apps)",
+    "homepage": "http://neo4j.com",
     "neo4jDesktop": {
         "apiVersion": "^1.2.0"
     }
 }
 ```
 
+Also, Neo4j Desktop scans `package.json` for the fields `homepage` and `description` to show the values of these fields 
+on the UI.
+
 It is possible to include `release-notes.md` on the same level as `package.json`, so that after updating graph app,
 Neo4j Desktop will display the actual release notes.
 
 To customize the look of the graph app inside Neo4j Desktop - include an icon to the distribution and add `icons`
 property to the `package.json`.
-*Note:* The path to icon should be relative to the graph app root.
+*Note:* The path to icon should be relative to the graph app root. Icon type could be any image type, or inline data URI.
 
 Example:
 ```json
@@ -107,7 +111,16 @@ Example:
     "name": "my-graph-app",
     "description": "(desktop)-[:LOVES]->(apps)",
     "icons": [
-        "./path-to-my-icon.svg"
+        {
+          "src": "./my-image.png",
+          "type": "png"
+        },{
+          "src": "./my-vector-image.svg",
+          "type": "svg"
+        },{
+          "src": "data:image/svg+xml;base64,[data]",
+          "type": "data"
+        }
     ]
 }
 ```
