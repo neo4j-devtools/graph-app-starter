@@ -76,9 +76,15 @@ if (window.neo4jDesktopApi) {
 
 ## Distribution
 
+### Structure
 Graph App should be distributed as a valid [npm package file](https://docs.npmjs.com/files/package.json),
 where `dist` folder contains a default app entry point `index.html`. App should be extractable as `zip`/`tgz` file.
 
+and
+
+Since Neo4j Desktop 1.1.10 hosted graph applications are supported. Just "install" using the URL to the hosted graph application.
+
+### Neo4j Desktop API version support
 Manifest file `package.json` should also include Neo4j Desktop API version that is used.
 *Note:* You can either specify explicit `apiVersion` or semver range.
 
@@ -95,12 +101,11 @@ Example:
 }
 ```
 
-Also, Neo4j Desktop scans `package.json` for the fields `homepage` and `description` to show the values of these fields 
-on the UI.
+### Graph application metadata
 
-It is possible to include `release-notes.md` on the same level as `package.json`, so that after updating graph app,
-Neo4j Desktop will display the actual release notes.
-
+**For packages graph applications**
+Neo4j Desktop scans `package.json` for the fields `name`, `homepage`, and `description` to show the values of these fields 
+on the UI.  
 To customize the look of the graph app inside Neo4j Desktop - include an icon to the distribution and add `icons`
 property to the `package.json`.
 *Note:* The path to icon should be relative to the graph app root. Icon type could be any image type, or inline data URI.
@@ -124,6 +129,14 @@ Example:
     ]
 }
 ```
+
+**For online/hosted graph applications**
+Neo4j Desktop looks for a `manifest.json` in the web root and look for a name there. The fallback is using the documents `<title>` tag if no manifest file is found.
+
+### Graph application release notes on updates
+It is possible to include `release-notes.md` on the same level as `package.json`, so that after updating graph app,
+Neo4j Desktop will display the actual release notes.
+
 
 ### Configure external Graph App
 
