@@ -103,7 +103,7 @@ Example:
 
 ### Graph application metadata
 
-**For packages graph applications**
+**For packages graph applications**. 
 Neo4j Desktop scans `package.json` for the fields `name`, `homepage`, and `description` to show the values of these fields 
 on the UI.  
 To customize the look of the graph app inside Neo4j Desktop - include an icon to the distribution and add `icons`
@@ -130,7 +130,7 @@ Example:
 }
 ```
 
-**For online/hosted graph applications**
+**For online/hosted graph applications**. 
 Neo4j Desktop looks for a `manifest.json` in the web root and look for a name there. The fallback is using the documents `<title>` tag if no manifest file is found.
 
 ### Graph application release notes on updates
