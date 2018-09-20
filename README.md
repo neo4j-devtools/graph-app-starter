@@ -77,8 +77,8 @@ if (window.neo4jDesktopApi) {
 ## Distribution
 
 ### Structure
-Graph App should be distributed as a valid [npm package file](https://docs.npmjs.com/files/package.json),
-where `dist` folder contains a default app entry point `index.html`. App should be extractable as `zip`/`tgz` file.
+Graph applications should be distributed as a valid [npm package file](https://docs.npmjs.com/files/package.json),
+where `dist` folder contains a default app entry point `index.html`.
 
 ### Installation
 To installa a self updating graph application, you enter a link to a npm style repository for the graph application.  
