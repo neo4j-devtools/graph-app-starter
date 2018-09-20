@@ -80,9 +80,19 @@ if (window.neo4jDesktopApi) {
 Graph App should be distributed as a valid [npm package file](https://docs.npmjs.com/files/package.json),
 where `dist` folder contains a default app entry point `index.html`. App should be extractable as `zip`/`tgz` file.
 
-and
+### Installation
+To installa a self updating graph application, you enter a link to a npm style repository for the graph application.  
+Example for neo4j-browser: `http://neo.jfrog.io/neo/api/npm/npm/neo4j-browser`.  
+This application will self update on every release (see below for how to display release notes).
 
-Since Neo4j Desktop 1.1.10 hosted graph applications are supported. Just "install" using the URL to the hosted graph application.
+or
+
+Pack and upload a `.tgz` file (following the structure explained above) and enter the URL to it in the graph application sidebar. This will be downloaded once and never updated.
+
+or
+
+Host a web application yourself and "install" it by inserting the URL to it in the graph application sidebar.
+
 
 ### Neo4j Desktop API version support
 Manifest file `package.json` should also include Neo4j Desktop API version that is used.
@@ -137,14 +147,6 @@ Neo4j Desktop looks for a `manifest.json` in the web root and look for a name th
 
 ### Graph application release notes on updates
 Include `release-notes.md` on the same level as `package.json` to have Neo4j Desktop display your applications release notes when it's updated.
-
-
-### Configure external Graph App
-
-Neo4j Desktop can work with externally configured Graph Apps.
-
-When in development mode in Neo4j Desktop, a new side panel is shown. In that panel you can install external applications.
-The package URL should point to the applications package root which lists all available versions.
 
 **Notes:**
 
