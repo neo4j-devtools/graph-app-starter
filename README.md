@@ -95,14 +95,17 @@ Host a web application yourself and "install" it by inserting the URL to it in t
 
 
 ### Neo4j Desktop API version support
-Manifest file `package.json` should also include Neo4j Desktop API version that is used.
+Manifest file `manifest.json` should be placed in `/dist` folder and contain information about the Graph App. Including Neo4j Desktop API version that is used.
 *Note:* You can either specify explicit `apiVersion` or semver range.
+
+The fallback is using the `package.json` file if no manifest file is found.
 
 Example:
 
 ```json
 {
     "name": "my-graph-app",
+    "version": "1.0.0",
     "description": "(desktop)-[:LOVES]->(apps)",
     "homepage": "http://neo4j.com",
     "neo4jDesktop": {
@@ -115,12 +118,16 @@ Example:
 
 **For packages graph applications**
 
-Neo4j Desktop scans `package.json` for the fields `name`, `homepage`, and `description` to show the values of these fields 
+Neo4j Desktop scans `manifest.json` for the fields `neo4jDesktop`, `name`, `description`, `icons`, and `homepage` to show the values of these fields 
 on the UI.  
 To customize the look of the graph app inside Neo4j Desktop - include an icon to the distribution and add `icons`
-property to the `package.json`.
-*Note:* The path to icon should be relative to the graph app root. Icon type could be any image type, or inline data URI.
+property to the `manifest.json`.
 
+*Note:* The paths should be relative to the location of the manifest file where they are specified:
+- If they are specified in `package.json`, their src should be relative to the graph app root. 
+- If they are specified in `dist/manifest.json` their src should be relative to the `dist/` folder.
+
+Icon type could be any image type, or inline data URI.
 Example:
 ```json
 {
@@ -143,7 +150,9 @@ Example:
 
 **For online/hosted graph applications**
 
-Neo4j Desktop looks for a `manifest.json` in the web root and look for a name there. The fallback is using the documents `<title>` tag if no manifest file is found.
+Neo4j Desktop looks for a `manifest.json` in the web root and look for a `<name>` tag to derive graph app name. The icon will be fetched from the `<link rel="icon">` tag if it exists.
+
+The fallback is using the documents `<title>` tag if no manifest file is found.
 
 ### Graph application release notes on updates
 Include `release-notes.md` on the same level as `package.json` to have Neo4j Desktop display your applications release notes when it's updated.
