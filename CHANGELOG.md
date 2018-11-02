@@ -1,5 +1,9 @@
 # Changelog
 
+### 29.10.2018
+
+- Kerberos support introduced
+
 ### 19.07.2018
 
 - Application online/offline introduced

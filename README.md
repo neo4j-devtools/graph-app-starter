@@ -118,13 +118,13 @@ Example:
 
 **For packages graph applications**
 
-Neo4j Desktop scans `manifest.json` for the fields `neo4jDesktop`, `name`, `description`, `icons`, and `homepage` to show the values of these fields 
+Neo4j Desktop scans `manifest.json` for the fields `neo4jDesktop`, `name`, `description`, `icons`, and `homepage` to show the values of these fields
 on the UI.  
 To customize the look of the graph app inside Neo4j Desktop - include an icon to the distribution and add `icons`
 property to the `manifest.json`.
 
 *Note:* The paths should be relative to the location of the manifest file where they are specified:
-- If they are specified in `package.json`, their src should be relative to the graph app root. 
+- If they are specified in `package.json`, their src should be relative to the graph app root.
 - If they are specified in `dist/manifest.json` their src should be relative to the `dist/` folder.
 
 Icon type could be any image type, or inline data URI.
@@ -201,7 +201,14 @@ window.neo4jDesktopApi = {
     /**
      *  Execute any node script, bundled inside you app package or given path. Will return wrapped process with API provided
      */
-    executeNode: (filePath: string, args: Array<string>, options: ExecOptions): Promise<Process>
+    executeNode: (filePath: string, args: Array<string>, options: ExecOptions): Promise<Process>,
+
+    /**
+    * Asynchronously get kerberos ticket for given service principal
+    * Service principal can be found in context
+    */
+
+    getKerberosTicket: (servicePrincipal: string) => Promise<KerberosTicketResult>;
 };
 
 //---------------
@@ -377,6 +384,12 @@ type GraphRemoteConnection = {
         edition: 'UNKNOWN' | string
     },
     configuration: {
+        authenticationMethods?: {
+          kerberos: {
+              enabled: boolean,
+              servicePrincipal?: string,
+          }
+        },
         protocols: {
             bolt: {
                 enabled: boolean,
@@ -532,5 +545,14 @@ type RemoteConnectionActivatedEvent = {
 type RemoteConnectionDeactivatedEvent = {
     type: 'REMOTE_CONNECTION_DEACTIVATED',
     id: string
+}
+
+//---------------
+// Kerberos
+//---------------
+
+type KerberosTicketResult {
+    ticket?: string;
+    error?: string;
 }
 ```
