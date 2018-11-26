@@ -26,249 +26,295 @@
 <div id="root"></div>
 
 <script type="text/babel">
-    //-------------------
-    // Components
-    //-------------------
+	//-------------------
+	// Components
+	//-------------------
 
-    function Settings({settings}) {
-        return <div>
-            <h3>Settings</h3>
+	function Settings({ settings }) {
+		return <div>
+			<h3>Settings</h3>
 
-            <table className="pure-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
+			<table className="pure-table">
+				<thead>
+				<tr>
+					<th>Name</th>
+					<th>Value</th>
+				</tr>
+				</thead>
 
-                <tbody>
-                    {
-                        _.keys(settings).map((key) =>
-                            (<tr key={key}>
-                                <td>{key}</td>
-                                <td>{String(settings[key])}</td>
-                            </tr>))
-                    }
-                </tbody>
-            </table>
+				<tbody>
+				{
+					_.keys(settings).map((key) =>
+						(<tr key={key}>
+							<td>{key}</td>
+							<td>{String(settings[key])}</td>
+						</tr>))
+				}
+				</tbody>
+			</table>
 
-        </div>;
-    }
+		</div>;
+	}
 
-    function LocalGraph({graph}) {
-        const protocol = (name, protocol) => {
-            return <li>
-                {name}
-                <ul>
-                    {
-                        _.keys(protocol).map((key) => (
-                                <li key={key}>{key}: {String((protocol[key]))}</li>
-                        ))
-                    }
-                </ul>
-            </li>
-        };
-        return (<ul>
-            <li>
-                {graph.name}
-                <ul>
-                    <li><b>ID:</b> {graph.id}</li>
-                    <li><b>Status:</b> {graph.status}</li>
-                    <li><b>Description:</b> {graph.description}</li>
-                    <li>
-                        <b>Connection:</b>
-                        <ul>
-                            <li><b>Type:</b> {graph.connection.type}</li>
-                            <li><b>Database type:</b> {graph.connection.databaseType}</li>
-                            <li><b>Database status:</b> {graph.connection.databaseStatus}</li>
-                            <li>
-                                <b>Info:</b>
-                                <ul>
-                                    <li><b>Version:</b> {graph.connection.info.version}</li>
-                                    <li><b>Edition:</b> {graph.connection.info.edition}</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <b>Configuration</b>
-                                <ul>
-                                    <li><b>Path:</b> {graph.connection.configuration.path}</li>
-                                    <li>
-                                        <b>Protocols:</b>
-                                        <ul>
-                                            {protocol('bolt', graph.connection.configuration.protocols.bolt)}
-                                            {protocol('http', graph.connection.configuration.protocols.http)}
-                                            {protocol('https', graph.connection.configuration.protocols.https)}
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>);
-    }
+	function LocalGraph({ graph }) {
+		const protocol = (name, protocol) => {
+			return <li>
+				{name}
+				<ul>
+					{
+						_.keys(protocol).map((key) => (
+							<li key={key}>{key}: {String((protocol[key]))}</li>
+						))
+					}
+				</ul>
+			</li>
+		};
+		return (<ul>
+			<li>
+				{graph.name}
+				<ul>
+					<li><b>ID:</b> {graph.id}</li>
+					<li><b>Status:</b> {graph.status}</li>
+					<li><b>Description:</b> {graph.description}</li>
+					<li>
+						<b>Connection:</b>
+						<ul>
+							<li><b>Type:</b> {graph.connection.type}</li>
+							<li><b>Database type:</b> {graph.connection.databaseType}</li>
+							<li><b>Database status:</b> {graph.connection.databaseStatus}</li>
+							<li>
+								<b>Info:</b>
+								<ul>
+									<li><b>Version:</b> {graph.connection.info.version}</li>
+									<li><b>Edition:</b> {graph.connection.info.edition}</li>
+								</ul>
+							</li>
+							<li>
+								<b>Configuration</b>
+								<ul>
+									<li><b>Path:</b> {graph.connection.configuration.path}</li>
+									<li>
+										<b>Protocols:</b>
+										<ul>
+											{protocol('bolt', graph.connection.configuration.protocols.bolt)}
+											{protocol('http', graph.connection.configuration.protocols.http)}
+											{protocol('https', graph.connection.configuration.protocols.https)}
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>);
+	}
 
-    function RemoteGraph({graph}) {
-        const protocol = (name, protocol) => {
-            return <li>
-                {name}
-                <ul>
-                    {
-                        _.keys(protocol).map((key) => (
-                                <li key={key}>{key}: {String((protocol[key]))}</li>
-                        ))
-                    }
-                </ul>
-            </li>
-        };
-        return (<ul>
-            <li>
-                {graph.name}
-                <ul>
-                    <li><b>ID:</b> {graph.id}</li>
-                    <li><b>Status:</b> {graph.status}</li>
-                    <li><b>Description:</b> {graph.description}</li>
-                    <li>
-                        <b>Connection:</b>
-                        <ul>
-                            <li><b>Type:</b> {graph.connection.type}</li>
-                            <li><b>Database type:</b> {graph.connection.databaseType}</li>
-                            <li><b>Database status:</b> {graph.connection.databaseStatus}</li>
-                            <li>
-                                <b>Info:</b>
-                                <ul>
-                                    <li><b>Version:</b> {graph.connection.info.version}</li>
-                                    <li><b>Edition:</b> {graph.connection.info.edition}</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <b>Configuration</b>
-                                <ul>
-                                    <li>
-                                        <b>Protocols:</b>
-                                        <ul>
-                                            {protocol('bolt', graph.connection.configuration.protocols.bolt)}
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>);
-    }
+	function RemoteGraph({ graph }) {
+		const protocol = (name, protocol) => {
+			return <li>
+				{name}
+				<ul>
+					{
+						_.keys(protocol).map((key) => (
+							<li key={key}>{key}: {String((protocol[key]))}</li>
+						))
+					}
+				</ul>
+			</li>
+		};
+		return (<ul>
+			<li>
+				{graph.name}
+				<ul>
+					<li><b>ID:</b> {graph.id}</li>
+					<li><b>Status:</b> {graph.status}</li>
+					<li><b>Description:</b> {graph.description}</li>
+					<li>
+						<b>Connection:</b>
+						<ul>
+							<li><b>Type:</b> {graph.connection.type}</li>
+							<li><b>Database type:</b> {graph.connection.databaseType}</li>
+							<li><b>Database status:</b> {graph.connection.databaseStatus}</li>
+							<li>
+								<b>Info:</b>
+								<ul>
+									<li><b>Version:</b> {graph.connection.info.version}</li>
+									<li><b>Edition:</b> {graph.connection.info.edition}</li>
+								</ul>
+							</li>
+							<li>
+								<b>Configuration</b>
+								<ul>
+									<li>
+										<b>Protocols:</b>
+										<ul>
+											{protocol('bolt', graph.connection.configuration.protocols.bolt)}
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>);
+	}
 
-    function Project({project}) {
-        return <div>
-            <hr />
-            <h3>{project.name}</h3>
-            <p>
-                <b>ID:</b> {project.id}
-            </p>
-            <h4>Graphs</h4>
-            {project.graphs.map((graph) => (
-                graph.connection.type === 'LOCAL'
-                    ? <LocalGraph key={graph.id} graph={graph} />
-                    : <RemoteGraph key={graph.id} graph={graph} />
-            ))}
-        </div>;
-    }
+	function Project({ project }) {
+		return <div>
+			<hr/>
+			<h3>{project.name}</h3>
+			<p>
+				<b>ID:</b> {project.id}
+			</p>
+			<h4>Graphs</h4>
+			{project.graphs.map((graph) => (
+				graph.connection.type === 'LOCAL'
+					? <LocalGraph key={graph.id} graph={graph}/>
+					: <RemoteGraph key={graph.id} graph={graph}/>
+			))}
+		</div>;
+	}
 
-    function Projects({projects}) {
-        return <div>
-            {projects.map((project) => (<Project key={project.id} project={project} />))}
-        </div>
-    }
+	function Projects({ projects }) {
+		return <div>
+			{projects.map((project) => (<Project key={project.id} project={project}/>))}
+		</div>
+	}
 
-    //-------------------
-    // Setup store
-    //-------------------
-    const initialState = {
-        apiVersion: 'unknown',
-        context: {
-            global: {
-                settings: {}
-            },
-            projects: []
-        }
-    };
+	function Arguments({ args }) {
+		let items = [];
+		for(const key of args.keys()) {
+            items.push((
+				<tr key={key}>
+					<td>{key}</td>
+					<td>{args.get(key)}</td>
+				</tr>
+            ));
+		}
 
-    function reducer(state = initialState, action) {
-        switch (action.type) {
-        case 'API_VERSION':
-            return {
-                ...state,
-                apiVersion: action.version,
-            };
-        case 'CONTEXT_UPDATE':
-            return {
-                ...state,
-                context: action.context
-            }
-        }
-        return state;
-    }
+		return <div>
+			<h3>Arguments</h3>
 
 
-    const store = Redux.createStore(
-        reducer,
-        Redux.applyMiddleware(reduxLogger.default)
-    );
+			<table className="pure-table">
+				<thead>
+				<tr>
+					<th>Name</th>
+					<th>Value</th>
+				</tr>
+				</thead>
 
-    //-------------------
-    // Setup container
-    //-------------------
-    const App = ReactRedux.connect(
-        state => state
-    )((props) => {
-        return <div className="pure-g">
-            <div className="pure-u-1-3">
-                <h3>Api Version: {props.apiVersion}</h3>
-                <Settings settings={props.context.global.settings} />
-            </div>
-            <div className="pure-u-2-3">
-                <Projects projects={props.context.projects} />
-            </div>
-        </div>
-    });
+				<tbody>
+                    {items}
+				</tbody>
+			</table>
 
-    //-------------------
-    // Render application
-    //-------------------
-    ReactDOM.render(
-            <ReactRedux.Provider store={store}>
-                <App />
-            </ReactRedux.Provider>,
-        document.getElementById('root')
-    );
+		</div>;
+	}
 
-    //-------------------
-    // Connect to Desktop API
-    //-------------------
-    store.dispatch({
-        type: 'API_VERSION',
-        version: window.neo4jDesktopApi.version
-    });
+	//-------------------
+	// Setup store
+	//-------------------
+	const initialState = {
+		apiVersion: 'unknown',
+		context: {
+			global: {
+				settings: {}
+			},
+			projects: []
+		},
+		args: new URLSearchParams()
+	};
+
+	function reducer(state = initialState, action) {
+		switch (action.type) {
+			case 'API_VERSION':
+				return {
+					...state,
+					apiVersion: action.version,
+				};
+			case 'CONTEXT_UPDATE':
+				return {
+					...state,
+					context: action.context
+				};
+			case 'ARGUMENTS_CHANGE':
+				return {
+					...state,
+					args: action.args,
+				};
+		}
+		return state;
+	}
 
 
-    window.neo4jDesktopApi.onContextUpdate((event, newContext, oldContext) => {
-        console.log("Desktop Event: ", event);
-        store.dispatch({
-            type: 'CONTEXT_UPDATE',
-            context: newContext
-        });
-    });
+	const store = Redux.createStore(
+		reducer,
+		Redux.applyMiddleware(reduxLogger.default)
+	);
 
-    window.neo4jDesktopApi.getContext()
-        .then(context => {
-            store.dispatch({
-                type: 'CONTEXT_UPDATE',
-                context: context
-            });
-        })
+	//-------------------
+	// Setup container
+	//-------------------
+	const App = ReactRedux.connect(
+		state => state
+	)((props) => {
+		return <div className="pure-g">
+			<div className="pure-u-1-3">
+				<h3>Api Version: {props.apiVersion}</h3>
+				<Settings settings={props.context.global.settings}/>
+				<Arguments args={props.args}/>
+			</div>
+			<div className="pure-u-2-3">
+				<Projects projects={props.context.projects}/>
+			</div>
+		</div>
+	});
+
+	//-------------------
+	// Render application
+	//-------------------
+	ReactDOM.render(
+		<ReactRedux.Provider store={store}>
+			<App/>
+		</ReactRedux.Provider>,
+		document.getElementById('root')
+	);
+
+	//-------------------
+	// Connect to Desktop API
+	//-------------------
+	store.dispatch({
+		type: 'API_VERSION',
+		version: window.neo4jDesktopApi.version
+	});
+
+
+	window.neo4jDesktopApi.onContextUpdate((event, newContext, oldContext) => {
+		console.log("Desktop Event: ", event);
+		store.dispatch({
+			type: 'CONTEXT_UPDATE',
+			context: newContext
+		});
+	});
+
+	window.neo4jDesktopApi.onArgumentsChange((argsStr, args) => {
+		console.log('Arguments change');
+		store.dispatch({
+			type: 'ARGUMENTS_CHANGE',
+			args: new URLSearchParams(argsStr)
+		});
+	});
+
+	window.neo4jDesktopApi.getContext()
+		.then(context => {
+			store.dispatch({
+				type: 'CONTEXT_UPDATE',
+				context: context
+			});
+		})
 </script>
 </body>
 </html>
