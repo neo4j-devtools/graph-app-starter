@@ -201,14 +201,25 @@ window.neo4jDesktopApi = {
     /**
      *  Execute any node script, bundled inside you app package or given path. Will return wrapped process with API provided
      */
-    executeNode: (filePath: string, args: Array<string>, options: ExecOptions): Promise<Process>,
+    executeNode: (filePath: string, args: Array<string>, options: ExecOptions) => Promise<Process>,
 
     /**
     * Asynchronously get kerberos ticket for given service principal
     * Service principal can be found in context
     */
 
-    getKerberosTicket: (servicePrincipal: string) => Promise<KerberosTicketResult>;
+    getKerberosTicket: (servicePrincipal: string) => Promise<KerberosTicketResult>,
+    
+    /**
+    * Register callback to receive arguments updates
+    * paramsString - pures string with params. ex.: cmd=play&args=music
+    * params - parsed params Map ([key: string]: string | null)
+    * 
+    * How to call graph-app with param - neo4j://GraphAppName?cmd=play&args=music
+    */
+    onArgumentsChange: (callback: (paramsString: string, params: Map) => void
+    
+*/
 };
 
 //---------------
