@@ -2,7 +2,7 @@
 
 | Setting | Value |
 |---------|-------|
-| Entry Point | `http://localhost:3000` |
+| Entry Point | `http://localhost:3001` |
 
 ## Development
 

@@ -1,5 +1,10 @@
 # Changelog
 
+### 03.12.2018
+
+- Introduced GraphQL API
+- `basic-react-app` example updated
+    
 ### 29.10.2018
 
 - Kerberos support introduced

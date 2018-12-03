@@ -4,9 +4,20 @@
   "version": "0.1.0",
   "private": false,
   "neo4jDesktop": {
-    "apiVersion": "1.2.0"
+    "apiVersion": "1.3.0"
   },
   "dependencies": {
+    "@neo4j/relate-api": "^0.2.0",
+    "apollo-boost": "^0.1.22",
+    "apollo-cache-inmemory": "^1.3.11",
+    "apollo-client": "^2.4.7",
+    "apollo-link": "^1.2.4",
+    "apollo-link-context": "^1.0.10",
+    "apollo-link-http": "^1.5.7",
+    "apollo-link-ws": "^1.0.10",
+    "apollo-utilities": "^1.0.26",
+    "graphql": "^14.0.2",
+    "graphql-tag": "^2.10.0",
     "lodash": "^4.17.4",
     "purecss": "^1.0.0",
     "react": "^16.0.0",
@@ -14,10 +25,11 @@
     "react-redux": "^5.0.6",
     "react-scripts": "1.0.14",
     "redux": "^3.7.2",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "subscriptions-transport-ws": "^0.9.15"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build && mv build dist",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

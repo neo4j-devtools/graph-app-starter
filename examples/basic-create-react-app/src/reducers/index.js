@@ -1,7 +1,7 @@
 const initialState = {
     apiVersion: 'unknown',
     context: {
-        global: {
+        general: {
             settings: {}
         },
         projects: []
