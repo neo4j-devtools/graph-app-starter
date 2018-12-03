@@ -51,6 +51,99 @@ Available examples:
 
 #### Quickstart example
 
+To prepare the graphQL connection, you'll need a set of libraries, we recommend using these
+```
+yarn add apollo-client apollo-link apollo-link-http apollo-link-ws
+```
+
+For managing both subscriptions and queries, passing custom headers, you'll need these
+```
+yarn add apollo-link-context apollo-utilities
+```
+
+The following code shows how to initialize the connection to the graphql server
+
+```ecmascript 6
+// All the necessary information is available in the url, as searchParams
+const url = new URL(window.location.href);
+// Url of a graphQL endpoint
+const apiEndpoint = url.searchParams.get('neo4jDesktopApiUrl');
+// Graph app identifier needed to sign every request (some  parts of data could be absent if there is no AppId in request)
+const appId = url.searchParams.get('neo4jDesktopGraphAppId');
+// A Desktop generated token to verify the provided appId 
+const apiClientId = url.searchParams.get('neo4jDesktopGraphAppClientId');
+
+// http link to execute graphQL queries
+const httpLink = createHttpLink({
+        uri: `http://${apiEndpoint}/`,
+});
+
+// websocket link to be able to subscribe to the Desktop events
+const wsLink = new WebSocketLink({
+    uri: `ws://${apiEndpoint}/`,
+    options: {
+        reconnect: true,       
+        connectionParams: {
+            ClientId: apiClientId,
+            AppId: appId
+        }
+    }
+});
+
+// link needed to inject custom headers to every query, 
+// so that Neo4j Desktop could identify the graph app and give as much data as it can
+const authLink = setContext((_, {headers}) => {
+    return {
+        headers: {
+            ...headers,
+            ClientId: apiClientId,
+            AppId: appId,
+        }
+    }
+});
+
+// general link, used to choose a correct endpoint between the operation types
+const link = split(
+    // split based on operation type
+    ({query}) => {
+        const {kind, operation} = getMainDefinition(query);
+        return kind === 'OperationDefinition' && operation === 'subscription';
+    },
+    wsLink,
+    authLink.concat(httpLink),
+);
+
+// at this point client is ready to use
+const client = new ApolloClient({
+    link: link,
+    cache: new InMemoryCache()
+});
+
+```
+
+After the client has been initialized, you can execute queries and start subscriptions to the Desktop GraphQL server.
+The format of the output data is almost the same as it was before, when contextAPI was in place.
+
+```js
+client.query({
+    query: /* your query */
+}).then(({data}) => {
+    // do something with data here
+});
+
+const observable = client.subscribe({
+    query: /* subscribe query */
+});
+observable.subscribe(({data}) => {
+    // do something with data here, this callback will be triggered every time Desktop has its data changed
+});
+```
+
+Extended example you can find [here](examples/basic-create-react-app)
+
+Also the fallback API is still being injected into the graph apps, so that you could still use the API in the old way.
+
+**Note** that fallback API is deprecated and will be removed in Desktop 1.2 (the exact date is not known yet, wait for the announcement).
 ```js
 /**
  * If application can run in multiple environments, detect that we are in Desktop.
