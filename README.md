@@ -81,7 +81,7 @@ Graph applications should be distributed as a valid [npm package file](https://d
 where `dist` folder contains a default app entry point `index.html`.
 
 ### Installation
-To installa a self updating graph application, you enter a link to a npm style repository for the graph application.  
+To install a self updating graph application, you enter a link to a npm style repository for the graph application.  
 Example for neo4j-browser: `http://neo.jfrog.io/neo/api/npm/npm/neo4j-browser`.  
 This application will self update on every release (see below for how to display release notes).
 
@@ -144,7 +144,8 @@ Example:
           "src": "data:image/svg+xml;base64,[data]",
           "type": "data"
         }
-    ]
+    ],
+    "homepage": "http://neo4j.com"
 }
 ```
 
