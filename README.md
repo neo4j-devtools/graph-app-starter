@@ -11,6 +11,9 @@ but all context changes are interceptable, so the apps could react to context ch
 
 Check out [Changelog](CHANGELOG.md) to follow API changes.
 
+We provide a Neo4j Desktop Canary channel with nightly builds of Neo4j Desktop so developers can verify that their graph application works in the coming release.  
+See https://neo4j.com/download-center/ -> Neo4j Desktop -> Pre-releases.
+
 ## Development mode
 
 Neo4j Desktop have `Development mode`.
