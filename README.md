@@ -45,8 +45,7 @@ Settings:
 
 Available examples:
 
-- [Simple single file Graph Application](examples/basic-single-file)
-- [Simple application created with create-react-app](examples/basic-create-react-app)
+- [Simple application created with create-react-app-graphql](examples/basic-create-react-app-graphql)
 - [Simple application executing Java](examples/basic-java-executor)
 
 #### Quickstart example
@@ -68,8 +67,6 @@ The following code shows how to initialize the connection to the graphql server
 const url = new URL(window.location.href);
 // Url of a graphQL endpoint
 const apiEndpoint = url.searchParams.get('neo4jDesktopApiUrl');
-// Graph app identifier needed to sign every request (some  parts of data could be absent if there is no AppId in request)
-const appId = url.searchParams.get('neo4jDesktopGraphAppId');
 // A Desktop generated token to verify the provided appId 
 const apiClientId = url.searchParams.get('neo4jDesktopGraphAppClientId');
 
@@ -84,8 +81,7 @@ const wsLink = new WebSocketLink({
     options: {
         reconnect: true,       
         connectionParams: {
-            ClientId: apiClientId,
-            AppId: appId
+            ClientId: apiClientId
         }
     }
 });
@@ -96,8 +92,7 @@ const authLink = setContext((_, {headers}) => {
     return {
         headers: {
             ...headers,
-            ClientId: apiClientId,
-            AppId: appId,
+            ClientId: apiClientId
         }
     }
 });
