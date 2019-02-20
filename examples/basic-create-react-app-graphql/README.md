@@ -1,11 +1,8 @@
-## Deprecated
-The recommended approach is to use the GraphQL API for querying data from Neo4j Desktop. Please refer to the updated example project [basic-create-react-app-graphql](../basic-create-react-app-graphql)
-
 # Basic Graph App with [create-react-app](https://github.com/facebookincubator/create-react-app)
 
 | Setting | Value |
 |---------|-------|
-| Entry Point | `http://localhost:3000` |
+| Entry Point | `http://localhost:3001` |
 
 ## Development
 
