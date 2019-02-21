@@ -39,7 +39,7 @@ Settings:
 
 **Note:** settings are not saved between Neo4j Desktop restarts.
 
-![Developer Tools](developmentMode.png)
+![Developer Tools](images/developmentMode.png)
 
 ## Example
 
@@ -253,6 +253,84 @@ Include `release-notes.md` on the same level as `package.json` to have Neo4j Des
 
 - Ensure that `neo4jDesktop.apiVersion` is properly configured.
 - Ensure that package have proper structure.
+
+## Requesting permissions
+
+If a graph application needs to use a privileged API (such as bundled Java or Node.js script execution), the app has to check and request the appropriate permission. Declare that your app needs a permission by listing the permission in the app manifest and then request that the user approve each permission at runtime.
+
+### Declare permissions in the manifest
+
+To declare that your app needs a permission, put a `permissions` field in your app `manifest.json`
+
+Example:
+```json
+{
+  "name": "my-graph-app",
+  "permissions": [
+    "backgroundProcess",
+    "allGraphs",
+    "activeGraph"
+  ]
+}
+```
+
+Currently available permissions:
+
+| Permission        | Description                                                                                      |
+|-------------------|--------------------------------------------------------------------------------------------------|
+| activeGraph       | Gives access to the  active Graph data.<br> This is a default permission granted on app install. |
+| allGraphs         | Gives access to all the configured Graphs.                                                       |
+| backgroundProcess | Gives access to `executeJava` and `executeNode` API.
+
+  
+**Explain why the app needs permissions**
+
+To help the user understand why your app needs a permission, add usage description to the list of permissions in form of map-like object:
+
+```json
+{
+  "name": "my-graph-app",
+  "permissions": [
+    "activeGraph",
+    {
+      "backgroundProcess": "Allow background processes to see output of demo Java class",
+      "allGraphs": "Another usage description here"
+    }
+  ]
+}
+```
+
+### Check for permission
+
+To check if you have a permission, call the `checkPermission()` method. 
+
+```js
+window.neo4jDesktopApi.checkPermission('backgroundProcess')
+    .then(granted => {
+        if (!granted) {
+            // Permission is not granted.
+        }
+    })
+```
+
+### Request the permission
+
+If your app doesn't already have the permission it needs, call `requestPermission()` method to request the appropriate permission from user. Only permissions declared in app manifest can be requested.
+
+```js
+window.neo4jDesktopApi.requestPermission('backgroundProcess')
+    .then(granted => {
+        if (granted) {
+            // Permission granted.
+        } else {
+            // Permission denied.
+        }
+    })
+```
+
+If the permission has not been already granted, the system dialog box is shown:
+
+![Permission Request](images/requestPermission.png)
 
 ## Technical details
 
