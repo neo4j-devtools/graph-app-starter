@@ -50,9 +50,9 @@
         return text.split(',');
     }
 
-    function showResult({stdout, stderr}) {
-        window.stdout.innerText = stdout;
-        window.stderr.innerText = stderr;
+    function showResult(process) {
+        process.addOutListener(data => window.stdout.innerText = data);
+        process.addErrListener(data => window.stderr.innerText = data);
     }
 
     function executeJar() {
@@ -63,8 +63,13 @@
             arguments: parseArguments()
         };
 
-        window.neo4jDesktopApi.executeJava(parameters)
-            .then(showResult);
+        window.neo4jDesktopApi.requestPermission('backgroundProcess')
+            .then(granted => {
+                if (granted) {
+                    window.neo4jDesktopApi.executeJava(parameters)
+                        .then(showResult);
+                }
+            })
     }
 
     function executeClass() {
