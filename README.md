@@ -39,7 +39,7 @@ Settings:
 
 **Note:** settings are not saved between Neo4j Desktop restarts.
 
-![Developer Tools](developmentMode.png)
+![Developer Tools](images/developmentMode.png)
 
 ## Example
 
@@ -254,6 +254,84 @@ Include `release-notes.md` on the same level as `package.json` to have Neo4j Des
 - Ensure that `neo4jDesktop.apiVersion` is properly configured.
 - Ensure that package have proper structure.
 
+## Requesting permissions
+
+If a graph application needs to use a privileged API (such as bundled Java or Node.js script execution), the app has to check and request the appropriate permission. Declare that your app needs a permission by listing the permission in the app manifest and then request that the user approve each permission at runtime.
+
+### Declare permissions in the manifest
+
+To declare that your app needs a permission, put a `permissions` field in your app `manifest.json`
+
+Example:
+```json
+{
+  "name": "my-graph-app",
+  "permissions": [
+    "backgroundProcess",
+    "allGraphs",
+    "activeGraph"
+  ]
+}
+```
+
+Currently available permissions:
+
+| Permission        | Description                                                                                      |
+|-------------------|--------------------------------------------------------------------------------------------------|
+| activeGraph       | Gives access to the  active Graph data.<br> This is a default permission granted on app install. |
+| allGraphs         | Gives access to all the configured Graphs.                                                       |
+| backgroundProcess | Gives access to `executeJava` and `executeNode` API.
+
+  
+**Explain why the app needs permissions**
+
+To help the user understand why your app needs a permission, add usage description to the list of permissions in form of map-like object:
+
+```json
+{
+  "name": "my-graph-app",
+  "permissions": [
+    "activeGraph",
+    {
+      "backgroundProcess": "Allow background processes to see output of demo Java class",
+      "allGraphs": "Another usage description here"
+    }
+  ]
+}
+```
+
+### Check for permission
+
+To check if you have a permission, call the `checkPermission()` method. 
+
+```js
+window.neo4jDesktopApi.checkPermission('backgroundProcess')
+    .then(granted => {
+        if (!granted) {
+            // Permission is not granted.
+        }
+    })
+```
+
+### Request the permission
+
+If your app doesn't already have the permission it needs, call `requestPermission()` method to request the appropriate permission from user. Only permissions declared in app manifest can be requested.
+
+```js
+window.neo4jDesktopApi.requestPermission('backgroundProcess')
+    .then(granted => {
+        if (granted) {
+            // Permission granted.
+        } else {
+            // Permission denied.
+        }
+    })
+```
+
+If the permission has not been already granted, the system dialog box is shown:
+
+![Permission Request](images/requestPermission.png)
+
 ## Technical details
 
 #### Application data location
@@ -269,90 +347,117 @@ Include `release-notes.md` on the same level as `package.json` to have Neo4j Des
 
 *Note:* API is under development and it can be changed, based on user feedback.
 
-*Note:* API definition is presented using [Flow](flow.org) syntax.
+*Note:* API definition is presented using TypeScript syntax.
 
-```js
-// Types are defined using Flow syntax.
+```typescript
 
-window.neo4jDesktopApi = {
+export interface DesktopApi {
+    /**
+     * API version.
+     */
+    version: string;
+    
     /**
      * Asynchronously get current context.
      */
-    getContext: () => Promise<Context>,
-
+    getContext: () => Promise<Context>;
+    
     /**
      * Register callback to receive context updates when events are happening.
      */
-    onContextUpdate: (event: Event, newContext: Context, oldContext: Context) => void,
-
+    onContextUpdate: (callback: (event: Event, newContext: Context, oldContext: Context) => void) => void;
+    
     /**
      *  Execute any jar, bundled inside you app package or given path. Will return wrapped process with API provided
      */
-    executeJava: (parameters: JavaParameters) => Promise<Process>,
-
+    executeJava: (parameters: JavaParameters) => Promise<Process>;
+    
     /**
-     *  Execute any node script, bundled inside you app package or given path. Will return wrapped process with API provided
+     *  Execute any node script, bundled inside you app package or given path.
+     *  Will return wrapped process with API provided
      */
-    executeNode: (filePath: string, args: Array<string>, options: ExecOptions) => Promise<Process>,
-
-    /**
-    * Asynchronously get kerberos ticket for given service principal
-    * Service principal can be found in context
-    */
-
-    getKerberosTicket: (servicePrincipal: string) => Promise<KerberosTicketResult>,
+    executeNode: (filePath: string, args: [string], options: ExecOptions) => Promise<Process>;
     
     /**
-    * Register callback to receive arguments updates
-    * paramsString - pures string with params. ex.: cmd=play&args=music
-    * params - parsed params Map ([key: string]: string | null)
-    * 
-    * How to call graph-app with param - neo4j://GraphAppName?cmd=play&args=music
-    */
-    onArgumentsChange: (callback: (paramsString: string, params: Map) => void
+     * Requests a permission from user.
+     * Only permissions declared in `manifest.json` can be requested.
+     *
+     * Permissions types:
+     *
+     * activeGraph         access active Graph data
+     * allGraphs           access to all the configured Graphs
+     * backgroundProcess   execute background Java and Node.js processes
+     *
+     * @param permission
+     * @return true if permission is granted
+     */
+    requestPermission: (permission: PermissionType) => Promise<boolean>;
     
-*/
-};
+    /**
+     * Check if a permission is granted.
+     * @param permission
+     */
+    checkPermission: (permission: PermissionType) => Promise<boolean>;
+    
+    /**
+     * Asynchronously get kerberos ticket for given service principal
+     * Service principal can be found in context
+     */
+    getKerberosTicket: (servicePrincipal: string) => Promise<KerberosTicketResult>;
+    
+    /**
+     * Register callback to receive arguments updates
+     * paramsString - pures string with params. ex.: cmd=play&args=music
+     * params - parsed params Map ([key: string]: string | null)
+     *
+     * How to call graph-app with param - neo4j://GraphAppName?cmd=play&args=music
+     */
+    onArgumentsChange: (callback: (paramsString: string, params: ParamsMap) => void) => void;
+    
+    getJwtToken: (dbId: string) => Promise<JWTTokenResult>;
+    
+}
+
+export interface ParamsMap {
+    [key: string]: string | null;
+}
+
+export type PermissionType = 'activeGraph' | 'allGraphs' | 'backgroundProcess';
 
 //---------------
 // Java
 //---------------
 
-export type JavaParameters = {
+export type JavaParameters =
     /**
      * Specify class or jar that should be executed.
      * Path to a .jar file can either be relative to App Path or absolute.
      * Example: 'Main'
      * Example: './test.jar'
      */
-    ['class' | 'jar']: string,
-
+    { [x in 'class' | 'jar']: string } & {
     /**
      * JVM arguments.
      * Example: ['-DmyProperty=value', '-Xdebug']
      */
-    options: string[],
+    options: string[];
 
     /**
      * Jar's that will be added to classpath.
      * Example: ['./test.jar', '/opt/lib/test.jar']
      */
-    classpath: string[],
+    classpath: string[];
 
     /**
      * Argument passed to a main.
      * Example: ['one', 'two', 'three']
      */
-    arguments: string[]
-}
+    arguments: string[];
+};
 
-type ProcessStatus =
-    | 'RUNNING'
-    | 'STOPPED'
-    | 'KILLED'
-    ;
+type ProcessStatus = 'RUNNING' | 'STOPPED' | 'KILLED';
 
-export type Process = {
+interface Process {
     /**
      * Stop the process tree gracefully, if fails - kill the process tree forcefully
      */
@@ -366,7 +471,7 @@ export type Process = {
     /**
      * Get the list of PIDs for whole process tree
      */
-    getProcessTreeIds(): Promise<Array<number>>;
+    getProcessTreeIds(): Promise<number[]>;
 
     /**
      * Listen to process-related errors (e.g. not being able to start)
@@ -393,78 +498,121 @@ export type Process = {
 // Node
 //---------------
 
-type EnvOptions = {
-    [key: string]: string
+interface EnvOptions {
+    [key: string]: string;
 }
 
-type ExecOptions = {
-    cwd?: string,
-    env?: EnvOptions
+export interface ExecOptions {
+    cwd?: string;
+    env?: EnvOptions;
+}
+
+//---------------
+// Kerberos
+//---------------
+
+interface KerberosTicketResult {
+    ticket?: string;
+    error?: string;
+}
+
+//---------------
+// JWT
+//---------------
+
+export interface JWTTokenResult {
+    token?: string;
+    error?: string;
 }
 
 //---------------
 // Context
 //---------------
 
-export type Context = {
+export interface Context {
     global: {
-        online: boolean
-        settings: Settings
-    },
-    projects: Array<Project>
-};
+        settings: Settings;
+        online: boolean;
+    };
+    projects: Project[];
+    activationKeys: GraphAppLicense[];
+}
 
-type Settings = {
-    allowSendStats: boolean,
-    allowSendReports: boolean
-};
+export interface GraphAppLicense {
+    featureName: string;
+    expirationDate: string;
+    activationVersion: string;
+    featureVersion: string;
+    registrant: string;
+    organization: string;
+    email: string;
+    signature: string;
+}
 
-type Project = {
-    id: string,
-    name: string,
-    graphs: Array<Graph>
-};
+export interface Settings {
+    allowSendStats: boolean;
+    allowSendReports: boolean;
+    allowStoreCredentials: boolean;
+}
 
-type Graph = {
-    id: string,
-    name: string,
-    description: string,
-    status: 'ACTIVE' | 'INACTIVE',
-    connection: GraphLocalConnection | GraphRemoteConnection
-};
+export interface Project {
+    id: string;
+    name: string;
+    graphs: Graph[];
+}
 
-type GraphLocalConnection = {
-    type: 'LOCAL',
-    databaseType: 'neo4j',
-    databaseStatus: GraphLocalConnectionStatus,
+export interface Graph {
+    id: string;
+    name: string;
+    description: string;
+    status: 'ACTIVE' | 'INACTIVE';
+    connection: GraphLocalConnection | GraphRemoteConnection;
+}
+
+export interface GraphLocalConnection {
+    type: 'LOCAL';
+    databaseType: 'neo4j';
+    databaseStatus: GraphLocalConnectionStatus;
     info: {
-        version: string,
-        edition: string
-    },
-    configuration: {
-        path: string,
-        protocols: {
-            bolt: {
-                enabled: boolean,
-                host: string,
-                port: number,
-                tlsLevel: 'OPTIONAL' | 'REQUIRED' | 'DISABLED'
-            },
-            http: {
-                enabled: boolean,
-                host: string,
-                port: number
-            },
-            https: {
-                enabled: boolean,
-                host: string,
-                port: number
-            }
-        }
-    }
-};
+        version: string;
+        edition: string;
+    };
+    configuration: GraphLocalConnectionConfiguration;
+}
 
-type GraphLocalConnectionStatus =
+export interface GraphLocalConnectionConfiguration {
+    path: string;
+    protocols: {
+        bolt: {
+            enabled: boolean;
+            host: string;
+            port: number;
+            tlsLevel: 'OPTIONAL' | 'REQUIRED' | 'DISABLED';
+            username?: string;
+            password?: string;
+            url: string;
+        };
+        http: {
+            enabled: boolean;
+            host: string;
+            port: number;
+            url: string;
+        };
+        https: {
+            enabled: boolean;
+            host: string;
+            port: number;
+            url: string;
+        };
+    };
+    authenticationMethods?: {
+        kerberos: {
+            enabled: boolean;
+        };
+    };
+}
+
+export type GraphLocalConnectionStatus =
     | 'STOPPED'
     | 'STOPPING'
     | 'STARTING'
@@ -475,54 +623,69 @@ type GraphLocalConnectionStatus =
     | 'CREATING'
     | 'REMOVING'
     | 'UPGRADING'
-    | 'MISSING'
-    ;
+    | 'MISSING';
 
-type GraphRemoteConnection = {
-    type: 'REMOTE',
-    databaseType: 'neo4j',
-    databaseStatus: GraphRemoteConnectionStatus,
+export interface GraphRemoteConnection {
+    type: 'REMOTE';
+    databaseType: 'neo4j';
+    databaseStatus: GraphRemoteConnectionStatus;
     info: {
-        version: 'UNKNOWN' | string,
-        edition: 'UNKNOWN' | string
-    },
-    configuration: {
-        authenticationMethods?: {
-          kerberos: {
-              enabled: boolean,
-              servicePrincipal?: string,
-          }
-        },
-        protocols: {
-            bolt: {
-                enabled: boolean,
-                host: string,
-                port: number,
-                tlsLevel: 'OPTIONAL' | 'REQUIRED' | 'DISABLED',
-                username?: string,
-                password?: string
-            }
-        }
-    }
+        version: 'UNKNOWN' | string;
+        edition: 'UNKNOWN' | string;
+    };
+    configuration: GraphRemoteConnectionProtocols;
 }
 
-type GraphRemoteConnectionStatus =
+export interface GraphRemoteConnectionProtocols {
+    protocols: {
+        bolt: {
+            enabled: boolean;
+            host: string;
+            port: number;
+            tlsLevel: 'OPTIONAL' | 'REQUIRED' | 'DISABLED';
+            username?: string;
+            password?: string;
+            url: string;
+        };
+        http: {
+            enabled: boolean;
+            host: string;
+            port: number;
+            url: string;
+        };
+        https: {
+            enabled: boolean;
+            host: string;
+            port: number;
+            url: string;
+        };
+    };
+    authenticationMethods?: {
+        kerberos: {
+            enabled: boolean;
+            servicePrincipal?: string;
+        };
+    };
+}
+
+export type GraphRemoteConnectionStatus =
     | 'UNKNOWN'
     | 'NEW'
     | 'CREATING'
     | 'REMOVING'
     | 'ACTIVATING'
     | 'AVAILABLE'
+    | 'UPDATING'
     | 'NOT_AVAILABLE'
+    | 'INVALID_PASSWORD'
     | 'DEACTIVATING'
-    | 'DEACTIVATED'
-    ;
+    | 'DEACTIVATED';
 
 //---------------
 // Events
 //---------------
 
-type Event =
+export type Event =
     | ApplicationOnlineEvent
     | ApplicationOfflineEvent
     | ProjectCreatedEvent
@@ -541,121 +704,111 @@ type Event =
     | RemoteConnectionCreatedEvent
     | RemoteConnectionRemovedEvent
     | RemoteConnectionActivatedEvent
-    | RemoteConnectionDeactivatedEvent
-;
+    | RemoteConnectionDeactivatedEvent;
 
-type ApplicationOnlineEvent = {
-    type: 'APPLICATION_ONLINE'
+interface ApplicationOnlineEvent {
+    type: 'APPLICATION_ONLINE';
 }
 
-type ApplicationOfflineEvent = {
-    type: 'APPLICATION_OFFLINE'
+interface ApplicationOfflineEvent {
+    type: 'APPLICATION_OFFLINE';
 }
 
-type ProjectCreatedEvent = {
-    type: 'PROJECT_CREATED',
-    id: string,
-    name: string
+interface ProjectCreatedEvent {
+    type: 'PROJECT_CREATED';
+    id: string;
+    name: string;
 }
 
-type ProjectRemovedEvent = {
-    type: 'PROJECT_REMOVED',
-    id: string
+interface ProjectRemovedEvent {
+    type: 'PROJECT_REMOVED';
+    id: string;
 }
 
-type ProjectRenamedEvent = {
-    type: 'PROJECT_RENAMED',
-    id: string,
-    name: string
+interface ProjectRenamedEvent {
+    type: 'PROJECT_RENAMED';
+    id: string;
+    name: string;
 }
 
-type GraphActiveEvent = {
-    type: 'GRAPH_ACTIVE',
-    id: string
+interface GraphActiveEvent {
+    type: 'GRAPH_ACTIVE';
+    id: string;
 }
 
-type GraphInactiveEvent = {
-    type: 'GRAPH_INACTIVE',
-    id: string
+interface GraphInactiveEvent {
+    type: 'GRAPH_INACTIVE';
+    id: string;
 }
 
-type DatabaseCreatedEvent = {
-    type: 'DATABASE_CREATED',
-    id: string,
-    projectId: string,
-    name: string,
-    description: string,
-    status: GraphLocalConnectionStatus,
-    version: string,
-    edition: 'community' | 'enterprise'
-};
+interface DatabaseCreatedEvent {
+    type: 'DATABASE_CREATED';
+    id: string;
+    projectId: string;
+    name: string;
+    description: string;
+    status: GraphLocalConnectionStatus;
+    version: string;
+    edition: 'community' | 'enterprise';
+}
 
-type DatabaseStartedEvent = {
-    type: 'DATABASE_STARTED',
-    id: string
-};
+interface DatabaseStartedEvent {
+    type: 'DATABASE_STARTED';
+    id: string;
+}
 
-type DatabaseStoppedEvent = {
-    type: 'DATABASE_STOPPED',
-    id: string
-};
+interface DatabaseStoppedEvent {
+    type: 'DATABASE_STOPPED';
+    id: string;
+}
 
-type DatabaseRenamedEvent = {
-    type: 'DATABASE_RENAMED',
-    id: string,
-    name: string
-};
+interface DatabaseRenamedEvent {
+    type: 'DATABASE_RENAMED';
+    id: string;
+    name: string;
+}
 
-type DatabaseRemovedEvent = {
-    type: 'DATABASE_REMOVED',
-    id: string
-};
+interface DatabaseRemovedEvent {
+    type: 'DATABASE_REMOVED';
+    id: string;
+}
 
-type DatabaseUpdatedEvent = {
-    type: 'DATABASE_UPDATED',
-    id: string,
+interface DatabaseUpdatedEvent {
+    type: 'DATABASE_UPDATED';
+    id: string;
     database: {
-        description: string
-    }
-};
-
-type DatabaseUpgradedEvent = {
-    type: 'DATABASE_UPGRADED',
-    id: string,
-    version: string
-};
-
-type DatabaseSettingsSavedEvent = {
-    type: 'DATABASE_SETTINGS_SAVED',
-    id: string
-};
-
-type RemoteConnectionCreatedEvent = {
-    type: 'REMOTE_CONNECTION_CREATED',
-    id: string
+        description: string;
+    };
 }
 
-type RemoteConnectionRemovedEvent = {
-    type: 'REMOTE_CONNECTION_REMOVED',
-    id: string
+interface DatabaseUpgradedEvent {
+    type: 'DATABASE_UPGRADED';
+    id: string;
+    version: string;
 }
 
-type RemoteConnectionActivatedEvent = {
-    type: 'REMOTE_CONNECTION_ACTIVATED',
-    id: string
+interface DatabaseSettingsSavedEvent {
+    type: 'DATABASE_SETTINGS_SAVED';
+    id: string;
 }
 
-type RemoteConnectionDeactivatedEvent = {
-    type: 'REMOTE_CONNECTION_DEACTIVATED',
-    id: string
+interface RemoteConnectionCreatedEvent {
+    type: 'REMOTE_CONNECTION_CREATED';
+    id: string;
 }
 
-//---------------
-// Kerberos
-//---------------
+interface RemoteConnectionRemovedEvent {
+    type: 'REMOTE_CONNECTION_REMOVED';
+    id: string;
+}
 
-type KerberosTicketResult {
-    ticket?: string;
-    error?: string;
+interface RemoteConnectionActivatedEvent {
+    type: 'REMOTE_CONNECTION_ACTIVATED';
+    id: string;
+}
+
+interface RemoteConnectionDeactivatedEvent {
+    type: 'REMOTE_CONNECTION_DEACTIVATED';
+    id: string;
 }
 ```
