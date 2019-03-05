@@ -1,0 +1,12 @@
+{
+  "name": "Basic Java Executor",
+  "version": "1.0.0",
+  "neo4jDesktop": {
+    "apiVersion": "^1.3.0"
+  },
+  "permissions": [
+    {
+      "backgroundProcess": "Allow background processes to see output of demo Java class"
+    }
+  ]
+}

@@ -40,6 +40,19 @@
 </div>
 
 <script>
+    function executeWithPermission(parameters) {
+        window.neo4jDesktopApi.requestPermission('backgroundProcess')
+            .then(granted => {
+                if (granted) {
+                    return window.neo4jDesktopApi.executeJava(parameters)
+                } else {
+                    return Promise.reject('Execute permission denied.');
+                }
+            })
+            .then(showResult)
+            .catch(e => console.error(e));
+    }
+
     function parseArguments() {
         const text = window.arguments.value;
         return text.split(',');
@@ -50,9 +63,9 @@
         return text.split(',');
     }
 
-    function showResult({stdout, stderr}) {
-        window.stdout.innerText = stdout;
-        window.stderr.innerText = stderr;
+    function showResult(process) {
+        process.addOutListener(data => window.stdout.innerText = data);
+        process.addErrListener(data => window.stderr.innerText = data);
     }
 
     function executeJar() {
@@ -63,8 +76,7 @@
             arguments: parseArguments()
         };
 
-        window.neo4jDesktopApi.executeJava(parameters)
-            .then(showResult);
+        executeWithPermission(parameters);
     }
 
     function executeClass() {
@@ -75,8 +87,7 @@
             arguments: parseArguments()
         };
 
-        window.neo4jDesktopApi.executeJava(parameters)
-            .then(showResult);
+        executeWithPermission(parameters);
     }
 </script>
 </body>

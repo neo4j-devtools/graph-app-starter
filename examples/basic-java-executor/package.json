@@ -7,11 +7,11 @@
   "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && mkdir dist && cp index.html test.jar dist",
+    "build": "rm -rf dist && mkdir dist && cp index.html test.jar manifest.json dist",
     "serve-dist": "serve -s dist"
   },
   "neo4jDesktop": {
-    "apiVersion": "1.2.0"
+    "apiVersion": "1.3.0"
   },
   "devDependencies": {
     "serve": "^6.2.0"
