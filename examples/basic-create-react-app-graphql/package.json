@@ -1,0 +1,35 @@
+{
+  "name": "basic-create-react-app",
+  "homepage": ".",
+  "version": "0.1.0",
+  "private": false,
+  "neo4jDesktop": {
+    "apiVersion": "1.2.0"
+  },
+  "dependencies": {
+    "@neo4j/relate-api": "^0.4.1",
+    "apollo-cache-inmemory": "^1.5.1",
+    "apollo-client": "^2.5.1",
+    "apollo-link": "^1.2.11",
+    "apollo-link-context": "^1.0.17",
+    "apollo-link-http": "^1.5.14",
+    "apollo-link-ws": "^1.0.17",
+    "apollo-utilities": "^1.2.1",
+    "graphql-tag": "^2.10.1",
+    "lodash": "^4.17.4",
+    "purecss": "^1.0.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "react-scripts": "1.0.14",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "subscriptions-transport-ws": "^0.9.16"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && mv build dist",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
