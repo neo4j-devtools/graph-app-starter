@@ -22,8 +22,6 @@ function App(props) {
     const apolloClient = createApolloClient();
     // const apolloCache = apolloClient.cache.extract();
 
-    //TODO: pass to the components
-
     return <div>
         <Section heading="Upload Files">
             <UploadFile/>
