@@ -1,0 +1,15 @@
+{
+  "short_name": "GraphQL upload example",
+  "name": "Example how to upload/download files with graphl",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

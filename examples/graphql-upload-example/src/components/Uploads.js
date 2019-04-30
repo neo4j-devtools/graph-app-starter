@@ -1,3 +1,4 @@
+import React from 'react';
 import { graphql } from 'react-apollo'
 import uploadsQuery from '../queries/uploads'
 import { Table, Head, Cell } from './Table'

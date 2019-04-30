@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Section = ({ heading, children }) => (
   <section>
     <h1>{heading}</h1>
