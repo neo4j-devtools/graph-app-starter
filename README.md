@@ -332,6 +332,28 @@ If the permission has not been already granted, the system dialog box is shown:
 
 ![Permission Request](images/requestPermission.png)
 
+
+## Plugin dependencies
+
+A graph application may specify database plugins required for the graph app to work. It is applicable for any locally installed and on-premise graph apps.
+To specify the dependencies, add `pluginDependencies` section to `manifest.json` file.
+
+For example:
+
+```json
+{
+  "name": "my-graph-app",
+  "pluginDependencies": [
+      "org.neo4j.procedure/apoc",
+      "org.neo4j/graph-algorithms-algo",
+      "org.neo4j/neo4j-graphql"
+    ]
+}
+```
+
+A dependency format is Maven coordinates of a plugin: `groupdId/artifactId`. A compatible plugin version is resolved at runtime. Neo4j Desktop automatically installs the required plugins to all the databases in a project having the graph application enabled.
+
+
 ## Technical details
 
 #### Application data location
