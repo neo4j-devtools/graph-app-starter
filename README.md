@@ -138,7 +138,7 @@ Extended example you can find [here](examples/basic-create-react-app)
 
 Also the fallback API is still being injected into the graph apps, so that you could still use the API in the old way.
 
-**Note** that fallback API is deprecated and will be removed in Desktop 1.2 (the exact date is not known yet, wait for the announcement).
+**Note** that fallback API is deprecated and will be removed in a future Neo4j Desktop release (the exact date is not known yet, wait for the announcement).
 ```js
 /**
  * If application can run in multiple environments, detect that we are in Desktop.
