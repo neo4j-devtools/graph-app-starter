@@ -16,7 +16,7 @@
     "apollo-link-ws": "^1.0.17",
     "apollo-utilities": "^1.2.1",
     "graphql-tag": "^2.10.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "purecss": "^1.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
